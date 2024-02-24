@@ -1,10 +1,7 @@
 package ao.tcc.projetofinal.jecuz.dto;
 
 import ao.tcc.projetofinal.jecuz.enums.Icone;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -17,82 +14,70 @@ import java.math.BigDecimal;
 @Builder
 public class ServicoDTO {
 
-
     private Long id;
-    @NotEmpty(message = "Não pode estar vazio")
-
+    @NotNull
+    @Size(min = 3 , max = 50)
     private String nome;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorMinimo;
-    @NotEmpty(message = "Não pode estar vazio")
-    @Positive(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     private Integer qtdHoras;
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     @Max(100)
+    @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal percentagemComissao;
-    @NotEmpty(message = "Não pode estar vazio")
-    @Positive(message = "O valor não poder negativo")
-
+    @NotNull
+    @PositiveOrZero
     private Integer horasQuarto;
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorQuarto;
-    @NotEmpty(message = "Não pode estar vazio")
-    @Positive(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     private Integer horasSala;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorSala;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @Positive(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     private Integer horasBanheiro;
 
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorBanheiro;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @Positive(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     private Integer horasCozinha;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
+    @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorCozinha;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @Positive(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     private Integer horasQuintal;
 
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorQuintal;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @Positive(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     private Integer horasOutros;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @PositiveOrZero
     @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorOutros;
-
-
+    @NotNull
     private Icone icone;
-
-    @NotEmpty(message = "Não pode estar vazio")
-    @PositiveOrZero(message = "O valor não poder negativo")
+    @NotNull
+    @Positive
     private Integer posicao;
 
 }

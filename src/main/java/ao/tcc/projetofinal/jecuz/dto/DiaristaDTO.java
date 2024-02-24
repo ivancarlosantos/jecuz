@@ -1,6 +1,7 @@
 package ao.tcc.projetofinal.jecuz.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -9,22 +10,27 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClienteDTO {
+public class DiaristaDTO {
 
     private Long id;
 
-    @NotBlank
+    @NotEmpty(message = "campo obrigatório")
+    @NotNull
     private String nome;
 
+    @NotEmpty(message = "campo obrigatório")
     @NotBlank
     private String nascimento;  // padrão 01/01/1999
 
+    @NotEmpty(message = "campo obrigatório")
     @NotBlank
-    private String tipoUsuario;
+    private String telefone;
 
+    @NotEmpty(message = "campo obrigatório")
     @NotBlank
     private String numeroBi;
 
+    @NotEmpty(message = "campo obrigatório")
     @NotBlank
     private String email;
 }

@@ -9,6 +9,11 @@ spring:
     username: postgres
     password: root
 
+  #Flyway Migration
+  flyway:
+    enabled: true
+    baselineOnMigrate: true
+
   # Hibernate Configuration
   jpa:
     database: POSTGRESQL

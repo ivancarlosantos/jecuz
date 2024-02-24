@@ -14,8 +14,8 @@ spring:
 
   #Flyway Migration
   flyway:
-    enabled: true
-    baselineOnMigrate: true
+    enabled: false
+    baselineOnMigrate: false
 
 # Server Configuration
 server:

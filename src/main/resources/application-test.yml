@@ -12,6 +12,10 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
 
+  #Flyway Migration
+  flyway:
+    enabled: true
+    baselineOnMigrate: true
 # Server Configuration
 server:
   port: 9000

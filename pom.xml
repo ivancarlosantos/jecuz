@@ -13,7 +13,7 @@
 	<artifactId>jecuz</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Jecuz App</name>
-	<description>Projeto para serviços de limpeza</description>
+	<description>Sistema de mão de obra para diaristas</description>
 
 	<properties>
 		<java.version>17</java.version>
@@ -55,6 +55,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>AdminLTE</artifactId>

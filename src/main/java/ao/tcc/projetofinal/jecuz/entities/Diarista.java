@@ -5,8 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.List;
+
 @Entity
-public class Cliente {
+public class Diarista {
     @Id
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
@@ -21,6 +22,8 @@ public class Cliente {
 
     @Column(nullable = false, unique = true, length = 14)
     private String numeroBi;
+    @Column(nullable = false)
+    private Double reputacao;
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval=true)
     @JoinColumn(name = "foto_documento", nullable = true)
@@ -28,9 +31,10 @@ public class Cliente {
 
     @ManyToMany
     @JoinTable(
-            name = "municipio_cliente",
-            joinColumns = @JoinColumn(name = "cliente_id"),
-            inverseJoinColumns = @JoinColumn(name = "municipio_id"))
-    private List<Municipio> municipal;
+            name = "municipio_diarista",
+            joinColumns = @JoinColumn(name = "diarista_id"),
+            inverseJoinColumns = @JoinColumn(name = "municipio_id")
+    )
+    private List<Municipio> municipios;
 
 }

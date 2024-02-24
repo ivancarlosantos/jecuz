@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ServicoService {
@@ -40,5 +43,9 @@ public class ServicoService {
         return mapper.map(servicoSaved, ServicoDTO.class);
     }
 
+
+    public List<ServicoDTO>buscarTodos(){
+    return servicoRepository.findAll().stream().map(servico->mapper.map(servico, ServicoDTO.class)).collect(Collectors.toList());
+    }
 
 }

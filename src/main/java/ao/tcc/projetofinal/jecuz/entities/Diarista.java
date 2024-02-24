@@ -1,12 +1,14 @@
 package ao.tcc.projetofinal.jecuz.entities;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Diarista {
     @Id
     @EqualsAndHashCode.Exclude

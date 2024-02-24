@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Cliente implements Serializable {
+public class Diarista implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +25,7 @@ public class Cliente implements Serializable {
 
     private Date nascimento;
 
-    private String tipoUsuario;
+    private String telefone;
 
     private String numeroBi;
 

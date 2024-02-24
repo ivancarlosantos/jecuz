@@ -1,6 +1,5 @@
 package ao.tcc.projetofinal.jecuz.dto;
 
-import ao.tcc.projetofinal.jecuz.enums.Icone;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.NumberFormat;

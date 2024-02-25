@@ -3,38 +3,32 @@ package ao.tcc.projetofinal.jecuz.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Date;
 
-@Setter
+@Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Cliente {
+@Builder
+public class Cliente implements Serializable {
+
     @Id
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="nome_completo", nullable = false)
-    private String nomeCompleto;
-    @Column(unique = true, nullable = false)
-    private String email;
-    @Column(nullable = false)
-    private String senha;
 
-    @Column(nullable = false, unique = true, length = 14)
+    private String nome;
+
+    private Date nascimento;
+
+    private String telefone;
+
     private String numeroBi;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval=true)
-    @JoinColumn(name = "foto_documento", nullable = true)
-    private Foto fotoDocumento;
+    private String email;
 
-    @ManyToMany
-    @JoinTable(
-            name = "municipio_cliente",
-            joinColumns = @JoinColumn(name = "cliente_id"),
-            inverseJoinColumns = @JoinColumn(name = "municipio_id"))
-    private List<Municipio> municipal;
-
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "diarista_id")
+    private Diarista diarista;
 }

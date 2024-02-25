@@ -2,7 +2,7 @@
 spring:
   h2:
     console:
-      enabled: 'true'
+      enabled: true
 
   datasource:
     username: sa
@@ -14,8 +14,21 @@ spring:
 
   #Flyway Migration
   flyway:
-    enabled: true
-    baselineOnMigrate: true
+    enabled: false
+    baselineOnMigrate: false
+
+#E-mail Configuration
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    username: eng.ivancarlos85@gmail.com
+    password: qdgn gxzm unos dmzq
+    port: 587
 
 # Server Configuration
 server:

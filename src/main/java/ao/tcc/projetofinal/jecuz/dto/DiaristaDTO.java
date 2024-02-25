@@ -1,9 +1,11 @@
 package ao.tcc.projetofinal.jecuz.dto;
 
+import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -11,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClienteDTO {
+public class DiaristaDTO {
 
     private Long id;
 
@@ -21,7 +23,7 @@ public class ClienteDTO {
 
     @NotEmpty(message = "campo obrigatório")
     @NotBlank
-    private String nascimento;  // padrão 01/01/2000
+    private String nascimento;  // padrão 01/01/1999
 
     @NotEmpty(message = "campo obrigatório")
     @NotBlank
@@ -36,5 +38,10 @@ public class ClienteDTO {
     @Email
     private String email;
 
-    private DiaristaDTO diarista;
+    private String verificationCode;
+
+    private boolean enabled;
+
+    @JsonIgnore
+    private ClienteDTO cliente;
 }

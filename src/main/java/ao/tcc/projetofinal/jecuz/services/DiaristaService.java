@@ -5,11 +5,15 @@ import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
+import ao.tcc.projetofinal.jecuz.utils.GenerateCode;
+import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,9 +24,10 @@ import java.util.List;
 public class DiaristaService {
 
     private final DiaristaRepository diaristaRepository;
+    private final MailService mailService;
     private final ModelMapper mapper;
 
-    public DiaristaDTO save(DiaristaDTO dto) throws ParseException {
+    public DiaristaDTO save(DiaristaDTO dto) throws ParseException, MessagingException, UnsupportedEncodingException {
 
         if (findDiarista(dto) != null || findNumeroBi(dto) != null) {
             throw new DataViolationException("Diarista já Cadastrada");
@@ -30,6 +35,8 @@ public class DiaristaService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date nascimento = sdf.parse(dto.getNascimento());
+        String code = GenerateCode.generateCode(64);
+
         Diarista diarista = Diarista
                 .builder()
                 .id(dto.getId())
@@ -38,9 +45,13 @@ public class DiaristaService {
                 .telefone(dto.getTelefone())
                 .numeroBi(dto.getNumeroBi())
                 .email(dto.getEmail())
+                .verificationCode(code)
+                .enabled(false)
                 .build();
 
         Diarista diaristaSaved = diaristaRepository.save(diarista);
+
+        mailService.sendVerificationEmail(diaristaSaved);
 
         return mapper.map(diaristaSaved, DiaristaDTO.class);
     }
@@ -62,7 +73,8 @@ public class DiaristaService {
                 }).toList();
     }
 
-    public DiaristaDTO findByID(Long id) {
+    public DiaristaDTO findByID(String value) {
+        Long id = ValidationParameter.validate(value);
         Diarista diarista = diaristaRepository
                 .findById(id)
                 .stream()
@@ -87,6 +99,20 @@ public class DiaristaService {
             return mapper.map(diarista, DiaristaDTO.class);
         }
         return null;
+    }
+
+    public boolean verify(String verificationCode) {
+        Diarista diarista = diaristaRepository.findByVerificationCode(verificationCode);
+
+        if (diarista == null || diarista.isEnabled()) {
+            return false;
+        } else {
+            diarista.setVerificationCode("--.--");
+            diarista.setEnabled(true);
+            diaristaRepository.save(diarista);
+
+            return true;
+        }
     }
 
     private DiaristaDTO findNumeroBi(DiaristaDTO dto) {

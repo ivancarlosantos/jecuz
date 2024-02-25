@@ -2,6 +2,7 @@ package ao.tcc.projetofinal.jecuz.controllers;
 
 import ao.tcc.projetofinal.jecuz.dto.ClienteDTO;
 import ao.tcc.projetofinal.jecuz.services.ClienteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity<ClienteDTO> save(@RequestBody ClienteDTO dto) throws ParseException {
+    public ResponseEntity<ClienteDTO> save(@RequestBody @Valid ClienteDTO dto) throws ParseException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(dto));
     }
@@ -30,15 +31,15 @@ public class ClienteController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<ClienteDTO> findByID(@PathVariable Long id) {
+    public ResponseEntity<ClienteDTO> findByID(@PathVariable String id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findByID(id));
     }
 
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody ClienteDTO dto) {
+    @PutMapping(path = "/{idCliente}/diarista/{idDiarista}")
+    public ResponseEntity<ClienteDTO> update(@PathVariable(value = "idCliente") String idCliente, @PathVariable(value = "idDiarista") String idDiarista) {
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(clienteService.joinClienteDiarista(idCliente, idDiarista));
     }
 
     @DeleteMapping(path = "/{id}")

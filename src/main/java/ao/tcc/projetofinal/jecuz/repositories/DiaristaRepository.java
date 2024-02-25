@@ -15,4 +15,6 @@ public interface DiaristaRepository extends JpaRepository<Diarista, Long> {
 
     @Query(value = "SELECT u FROM Diarista u WHERE u.numeroBi=:numeroBi")
     Diarista findByNumeroBi(@Param("numeroBi") String numeroBi);
+
+    Diarista findByVerificationCode(String verificationCode);
 }

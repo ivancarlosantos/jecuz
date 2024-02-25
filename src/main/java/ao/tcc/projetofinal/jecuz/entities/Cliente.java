@@ -1,9 +1,6 @@
 package ao.tcc.projetofinal.jecuz.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -25,9 +22,13 @@ public class Cliente implements Serializable {
 
     private Date nascimento;
 
-    private String tipoUsuario;
+    private String telefone;
 
     private String numeroBi;
 
     private String email;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "diarista_id")
+    private Diarista diarista;
 }

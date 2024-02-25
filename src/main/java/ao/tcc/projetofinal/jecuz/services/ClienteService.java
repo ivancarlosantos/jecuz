@@ -2,9 +2,12 @@ package ao.tcc.projetofinal.jecuz.services;
 
 import ao.tcc.projetofinal.jecuz.dto.ClienteDTO;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
+import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
+import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
+import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
@@ -19,6 +22,7 @@ import java.util.List;
 @Service
 public class ClienteService {
 
+    private final DiaristaRepository diaristaRepository;
     private final ClienteRepository clienteRepository;
     private final ModelMapper mapper;
 
@@ -35,7 +39,7 @@ public class ClienteService {
                 .id(dto.getId())
                 .nome(dto.getNome())
                 .nascimento(nascimento)
-                .tipoUsuario(dto.getTipoUsuario())
+                .telefone(dto.getTelefone())
                 .numeroBi(dto.getNumeroBi())
                 .email(dto.getEmail())
                 .build();
@@ -43,6 +47,20 @@ public class ClienteService {
         Cliente clienteSaved = clienteRepository.save(cliente);
 
         return mapper.map(clienteSaved, ClienteDTO.class);
+    }
+
+    public ClienteDTO joinClienteDiarista(String idCliente, String idDiarista){
+        Long indexCliente = ValidationParameter.validate(idCliente);
+        Long indexDiarista = ValidationParameter.validate(idDiarista);
+
+        Cliente cliente = clienteRepository.findById(indexCliente).orElseThrow(() -> new RegraDeNegocioException("ID Cliente Não Encontrado"));
+        Diarista diarista = diaristaRepository.findById(indexDiarista).orElseThrow(() -> new RegraDeNegocioException("ID Cliente Não Encontrado"));
+
+        cliente.setDiarista(diarista);
+
+        clienteRepository.save(cliente);
+
+        return mapper.map(cliente, ClienteDTO.class);
     }
 
     public List<ClienteDTO> listAll() {
@@ -62,7 +80,8 @@ public class ClienteService {
                 }).toList();
     }
 
-    public ClienteDTO findByID(Long id) {
+    public ClienteDTO findByID(String value) {
+        Long id = ValidationParameter.validate(value);
         Cliente cliente = clienteRepository
                 .findById(id)
                 .stream()

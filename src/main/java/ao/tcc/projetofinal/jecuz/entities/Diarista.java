@@ -1,9 +1,6 @@
 package ao.tcc.projetofinal.jecuz.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -30,4 +27,11 @@ public class Diarista implements Serializable {
     private String numeroBi;
 
     private String email;
+
+    private String verificationCode;
+
+    private boolean enabled;
+
+    @OneToOne(mappedBy = "diarista")
+    private Cliente cliente;
 }

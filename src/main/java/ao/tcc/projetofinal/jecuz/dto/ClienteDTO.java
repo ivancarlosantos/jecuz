@@ -21,7 +21,7 @@ public class ClienteDTO {
 
     @NotEmpty(message = "campo obrigatório")
     @NotBlank
-    private String nascimento;  // padrão 01/01/1999
+    private String nascimento;  // padrão 01/01/2000
 
     @NotEmpty(message = "campo obrigatório")
     @NotBlank

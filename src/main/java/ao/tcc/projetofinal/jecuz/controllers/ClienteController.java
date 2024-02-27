@@ -1,33 +1,63 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
 import ao.tcc.projetofinal.jecuz.dto.ClienteDTO;
+import ao.tcc.projetofinal.jecuz.dto.FlashMessage;
+import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.services.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping(path = "/api/cliente")
+@Controller
+@RequestMapping(path = "/admin/usuarios")
 public class ClienteController {
 
     private final ClienteService clienteService;
 
-    @PostMapping(path = "/save")
-    public ResponseEntity<ClienteDTO> save(@RequestBody @Valid ClienteDTO dto) throws ParseException {
+    @GetMapping("/cadastrar")
+    public ModelAndView cadastrar(){
+        var modelAndView= new ModelAndView("admin/usuario/cadastro_form");
+        modelAndView.addObject("cadastroFormulario", new ClienteDTO());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(dto));
+        return modelAndView;
     }
 
-    @GetMapping(path = "/list")
-    public ResponseEntity<List<ClienteDTO>> findAll() {
+    @PostMapping("/cadastrar")
+    public String cadastrar(@Valid @ModelAttribute("cadastroFormulario") ClienteDTO usuarioForm, BindingResult result, RedirectAttributes attrs) {
+        if (result.hasErrors()) {
+            return "admin/usuario/cadastro_form";
+        }
+        try {
+            clienteService.save(usuarioForm);
 
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.listAll());
+            attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Usuário cadastrado com sucesso!"));
+
+        } catch (RegraDeNegocioException e) {
+            //result.addError(e.getFieldError());
+            return "admin/usuario/cadastro_form";
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/admin/usuarios";
+    }
+
+
+    @GetMapping
+    public ModelAndView buscarTodos(){
+        var modelAndView= new ModelAndView("admin/usuario/lista");
+        modelAndView.addObject("usuarios", clienteService.listAll());
+        return modelAndView;
+
     }
 
     @GetMapping(path = "/{id}")

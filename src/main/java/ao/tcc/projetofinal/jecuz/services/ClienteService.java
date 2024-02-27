@@ -32,7 +32,7 @@ public class ClienteService {
             throw new DataViolationException("Cliente já Cadastrado");
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date nascimento = sdf.parse(dto.getNascimento());
         Cliente cliente = Cliente
                 .builder()
@@ -73,7 +73,7 @@ public class ClienteService {
                         Date date = sdf.parse(String.valueOf(cliente.getNascimento()));
                         cliente.setNascimento(date);
                     } catch (ParseException e) {
-                        throw new RegraDeNegocioException(e.getMessage());
+                        throw new RegraDeNegocioException(e.getMessage() );
                     }
 
                     return mapper.map(cliente, ClienteDTO.class);

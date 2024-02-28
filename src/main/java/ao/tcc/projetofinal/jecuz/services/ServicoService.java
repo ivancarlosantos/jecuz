@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -56,5 +57,47 @@ public class ServicoService {
 
     }
 
+    public ServicoDTO editar(ServicoDTO dto, Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("O ID do serviço a ser editado não pode ser nulo.");
+        }
 
+        Optional<Servico> servicoOptional = servicoRepository.findById(dto.getId());
+        if (servicoOptional.isPresent()) {
+            Servico existingServico = servicoOptional.get();
+
+            existingServico.setNome(dto.getNome());
+            existingServico.setValorMinimo(dto.getValorMinimo());
+            existingServico.setQtdHoras(dto.getQtdHoras());
+            existingServico.setPercentagemComissao(dto.getPercentagemComissao());
+            existingServico.setHorasQuarto(dto.getHorasQuarto());
+            existingServico.setValorQuarto(dto.getValorQuarto());
+            existingServico.setHorasSala(dto.getHorasSala());
+            existingServico.setValorSala(dto.getValorSala());
+            existingServico.setHorasBanheiro(dto.getHorasBanheiro());
+            existingServico.setValorBanheiro(dto.getValorBanheiro());
+            existingServico.setHorasCozinha(dto.getHorasCozinha());
+            existingServico.setValorCozinha(dto.getValorCozinha());
+            existingServico.setHorasQuintal(dto.getHorasQuintal());
+            existingServico.setValorQuintal(dto.getValorQuintal());
+            existingServico.setHorasOutros(dto.getHorasOutros());
+            existingServico.setValorOutros(dto.getValorOutros());
+            existingServico.setIcone(dto.getIcone());
+
+            existingServico = servicoRepository.save(existingServico);
+
+            return mapper.map(existingServico, ServicoDTO.class);
+        } else {
+            throw new RegraDeNegocioException("Serviço com ID " + dto.getId() + " não encontrado.");
+        }
+    }
+
+    public void excluirPorId(Long id) {
+        Optional<Servico> servicoOptional = servicoRepository.findById(id);
+        if (servicoOptional.isPresent()) {
+            Servico existingServico = servicoOptional.get();
+            servicoRepository.delete(existingServico);
+        }
+
+    }
 }

@@ -37,10 +37,10 @@
 
 
                             <td>
-                                <a th:href="@{/admin/usuarios/{id}/editar (id=${usuario.id})}" class="btn btn-sm btn-warning">Editar</a>
+                                <a th:href="@{/admin/usuarios/{id}/editar (id=${usuario.id})}" class="btn btn-sm btn-warning"><i class="bi bi-pen">Editar</i></a>
                                 <a th:href="@{/admin/usuarios/{id}/excluir(id=${usuario.id})}" class="btn btn-sm btn-danger"
                                    onclick="return confirm('Deseja realmente excluir esse Usuario?')"
-                                >Excluir</a>
+                                ><i class="bi bi-trash"></i></a>
                             </td>
                         </tr>
                         </tbody>

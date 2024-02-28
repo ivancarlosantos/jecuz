@@ -1,5 +1,8 @@
 package ao.tcc.projetofinal.jecuz.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Icone {
     TWF_CLEANING_1("twf_cleaning-1"),
     TWF_CLEANING_2("twf_cleaning-2"),
@@ -7,9 +10,5 @@ public enum Icone {
     private String nome;
     private Icone(String nome){
         this.nome=nome;
-
-    }
-    public  String getNome(){
-        return nome;
     }
 }

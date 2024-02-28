@@ -1,9 +1,11 @@
 package ao.tcc.projetofinal.jecuz.services;
 
 import ao.tcc.projetofinal.jecuz.dto.DiaristaDTO;
+import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
+import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
 import ao.tcc.projetofinal.jecuz.utils.GenerateCode;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
@@ -23,6 +25,7 @@ import java.util.List;
 @Service
 public class DiaristaService {
 
+    private final ClienteRepository clienteRepository;
     private final DiaristaRepository diaristaRepository;
     private final MailService mailService;
     private final ModelMapper mapper;
@@ -39,7 +42,6 @@ public class DiaristaService {
 
         Diarista diarista = Diarista
                 .builder()
-                .id(dto.getId())
                 .nome(dto.getNome())
                 .nascimento(nascimento)
                 .telefone(dto.getTelefone())

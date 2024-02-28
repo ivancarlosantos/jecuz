@@ -1,5 +1,6 @@
 package ao.tcc.projetofinal.jecuz.exceptions;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.Date;
+import java.util.List;
 
 @RestControllerAdvice
 public class JecuzExceptionHandler {
@@ -19,7 +21,7 @@ public class JecuzExceptionHandler {
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND,
                 new Date(),
-                ex.getMessage());
+                List.of(ex.getMessage()));
 
         return new ResponseEntity<>(exceptionMessage, HttpStatus.NOT_FOUND);
     }
@@ -31,7 +33,7 @@ public class JecuzExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST,
                 new Date(),
-                ex.getMessage());
+                List.of(ex.getMessage()));
 
         return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
     }
@@ -43,7 +45,7 @@ public class JecuzExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST,
                 new Date(),
-                ex.getMessage());
+                List.of(ex.getMessage()));
 
         return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
     }
@@ -55,7 +57,7 @@ public class JecuzExceptionHandler {
                 HttpStatus.CONFLICT.value(),
                 HttpStatus.CONFLICT,
                 new Date(),
-                ex.getMessage());
+                List.of(ex.getMessage()));
 
         return new ResponseEntity<>(exceptionMessage, HttpStatus.CONFLICT);
     }
@@ -67,7 +69,7 @@ public class JecuzExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST,
                 new Date(),
-                ex.getMessage());
+                List.of(ex.getLocalizedMessage()));
 
         return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
     }
@@ -75,11 +77,16 @@ public class JecuzExceptionHandler {
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ResponseEntity<ExceptionMessage> handlerFieldException(MethodArgumentNotValidException ex) {
 
+        List<String> errors = ex.getBindingResult().getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .toList();
+
         ExceptionMessage exceptionMessage = new ExceptionMessage(
                 ex.getStatusCode().value(),
                 HttpStatus.BAD_REQUEST,
                 new Date(),
-                ex.getLocalizedMessage());
+                List.of(errors.toString()));
 
         return new ResponseEntity<>(exceptionMessage, HttpStatus.BAD_REQUEST);
     }

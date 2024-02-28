@@ -1,10 +1,13 @@
 package ao.tcc.projetofinal.jecuz.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +35,12 @@ public class Diarista implements Serializable {
 
     private boolean enabled;
 
-    @OneToOne(mappedBy = "diarista")
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    @JsonBackReference
     private Cliente cliente;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "diarista", fetch = FetchType.LAZY)
+    private List<OrdensDeServico> ordensDeServicos;
 }

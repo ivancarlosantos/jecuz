@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class ClienteService {
 
     private final DiaristaRepository diaristaRepository;
     private final ClienteRepository clienteRepository;
+    private final OrdensDeServicoService ordensDeServicoService;
     private final ModelMapper mapper;
 
     public ClienteDTO save(ClienteDTO dto) throws ParseException {
@@ -32,7 +35,7 @@ public class ClienteService {
             throw new DataViolationException("Cliente já Cadastrado");
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date nascimento = sdf.parse(dto.getNascimento());
         Cliente cliente = Cliente
                 .builder()
@@ -49,18 +52,21 @@ public class ClienteService {
         return mapper.map(clienteSaved, ClienteDTO.class);
     }
 
-    public ClienteDTO joinClienteDiarista(String idCliente, String idDiarista){
+    public Cliente joinClienteDiarista(String idCliente, String idDiarista) {
         Long indexCliente = ValidationParameter.validate(idCliente);
         Long indexDiarista = ValidationParameter.validate(idDiarista);
 
         Cliente cliente = clienteRepository.findById(indexCliente).orElseThrow(() -> new RegraDeNegocioException("ID Cliente Não Encontrado"));
         Diarista diarista = diaristaRepository.findById(indexDiarista).orElseThrow(() -> new RegraDeNegocioException("ID Cliente Não Encontrado"));
+        List<Diarista> diaristaList = new ArrayList<>();
 
-        cliente.setDiarista(diarista);
+        cliente.setDiaristas(diaristaList);
+        diarista.setCliente(cliente);
 
+        diaristaRepository.save(diarista);
         clienteRepository.save(cliente);
 
-        return mapper.map(cliente, ClienteDTO.class);
+        return cliente;
     }
 
     public List<ClienteDTO> listAll() {
@@ -73,7 +79,7 @@ public class ClienteService {
                         Date date = sdf.parse(String.valueOf(cliente.getNascimento()));
                         cliente.setNascimento(date);
                     } catch (ParseException e) {
-                        throw new RegraDeNegocioException(e.getMessage() );
+                        throw new RegraDeNegocioException(e.getMessage());
                     }
 
                     return mapper.map(cliente, ClienteDTO.class);

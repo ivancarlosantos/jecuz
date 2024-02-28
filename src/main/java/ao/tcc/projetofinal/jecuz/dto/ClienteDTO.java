@@ -1,10 +1,12 @@
 package ao.tcc.projetofinal.jecuz.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,5 +38,5 @@ public class ClienteDTO {
     @Email
     private String email;
 
-    private DiaristaDTO diarista;
+    private List<Diarista> diaristas;
 }

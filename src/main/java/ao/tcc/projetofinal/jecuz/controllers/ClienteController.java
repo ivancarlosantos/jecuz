@@ -1,21 +1,17 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
 import ao.tcc.projetofinal.jecuz.dto.ClienteDTO;
-import ao.tcc.projetofinal.jecuz.dto.FlashMessage;
-import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
+import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.services.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -32,7 +28,7 @@ public class ClienteController {
         return modelAndView;
     }
 
-    @PostMapping("/cadastrar")
+    /*@PostMapping("/cadastrar")
     public String cadastrar(@Valid @ModelAttribute("cadastroFormulario") ClienteDTO usuarioForm, BindingResult result, RedirectAttributes attrs) {
         if (result.hasErrors()) {
             return "admin/usuario/cadastro_form";
@@ -46,11 +42,16 @@ public class ClienteController {
             //result.addError(e.getFieldError());
             return "admin/usuario/cadastro_form";
         } catch (ParseException e) {
-            throw new RuntimeException(e);
+            throw new RegraDeNegocioException(e.getMessage());
         }
         return "redirect:/admin/usuarios";
-    }
+    }*/
 
+    @PostMapping(path = "/save")
+    public ResponseEntity<ClienteDTO> save(@RequestBody @Valid ClienteDTO dto) throws ParseException {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(dto));
+    }
 
     @GetMapping
     public ModelAndView buscarTodos(){
@@ -66,8 +67,8 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findByID(id));
     }
 
-    @PutMapping(path = "/{idCliente}/diarista/{idDiarista}")
-    public ResponseEntity<ClienteDTO> update(@PathVariable(value = "idCliente") String idCliente, @PathVariable(value = "idDiarista") String idDiarista) {
+    @PostMapping(path = "/{idCliente}/diarista/{idDiarista}")
+    public ResponseEntity<Cliente> update(@PathVariable(value = "idCliente") String idCliente, @PathVariable(value = "idDiarista") String idDiarista) {
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(clienteService.joinClienteDiarista(idCliente, idDiarista));
     }

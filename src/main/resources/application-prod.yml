@@ -1,3 +1,7 @@
+# Server Configuration
+server:
+  port: 8080
+
 #Application Name
 spring:
   application:
@@ -11,8 +15,8 @@ spring:
 
   #Flyway Migration
   flyway:
-    enabled: true
-    baselineOnMigrate: true
+    enabled: false
+    baselineOnMigrate: false
 
   # Hibernate Configuration
   jpa:
@@ -24,6 +28,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# Server Configuration
-server:
-  port: 8080
+  #E-mail Configuration
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    username: eng.ivancarlos85@gmail.com
+    password: qdgn gxzm unos dmzq
+    port: 587

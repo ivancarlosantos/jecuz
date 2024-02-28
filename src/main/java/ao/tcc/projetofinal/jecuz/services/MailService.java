@@ -4,7 +4,6 @@ import ao.tcc.projetofinal.jecuz.dto.DiaristaDTO;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,13 +11,17 @@ import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
 
-@RequiredArgsConstructor
 @Service
 public class MailService {
 
     private final JavaMailSender emailSender;
 
     private final ModelMapper mapper;
+
+    public MailService(JavaMailSender emailSender, ModelMapper mapper) {
+        this.emailSender = emailSender;
+        this.mapper = mapper;
+    }
 
     private final String verifyURL = "http://localhost:8080/api/diarista/verify?code=";
 

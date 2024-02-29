@@ -32,4 +32,8 @@ public class Cliente  implements Serializable{
     private String numeroBi;
 
     private String email;
+
+    @OneToMany(mappedBy = "cliente")
+    @JsonManagedReference
+    private List<Diarista> diaristas;
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -69,9 +70,15 @@ public class OrdensDeServicoService {
         Diarista diarista = diaristaRepository.findById(indexDiarista).orElseThrow(() -> new RegraDeNegocioException("ID Diarista não encontrado"));
         OrdensDeServico os = ordensDeServicoRepository.findById(indexOS).orElseThrow(() -> new RegraDeNegocioException("ID O.S não encontrado"));
 
+        List<Diarista> diaristas = new ArrayList<>();
+
+        diaristas.add(diarista);
+        cliente.setDiaristas(diaristas);
+        diarista.setCliente(cliente);
         os.setDiarista(diarista);
         os.setNomeCliente(cliente.getNome());
 
+        clienteRepository.save(cliente);
         diaristaRepository.save(diarista);
         ordensDeServicoRepository.save(os);
 

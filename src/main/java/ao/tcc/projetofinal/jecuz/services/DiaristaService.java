@@ -62,6 +62,7 @@ public class DiaristaService {
         return diaristaRepository
                 .findAll(Sort.by("nome"))
                 .stream()
+                .filter(Diarista::isEnabled)
                 .map(diarista -> {
                     try {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

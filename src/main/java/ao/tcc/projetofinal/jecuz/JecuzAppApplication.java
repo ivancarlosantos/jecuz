@@ -13,5 +13,4 @@ public class JecuzAppApplication {
         SpringApplication.run(JecuzAppApplication.class, args);
         log.info("Application UP on status: " + HttpStatus.OK);
     }
-
 }

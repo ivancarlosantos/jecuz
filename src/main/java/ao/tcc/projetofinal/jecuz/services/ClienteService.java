@@ -51,6 +51,7 @@ public class ClienteService {
                 .stream()
                 .map(cliente -> {
                     try {
+
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = sdf.parse(String.valueOf(cliente.getNascimento()));
                         cliente.setNascimento(date);

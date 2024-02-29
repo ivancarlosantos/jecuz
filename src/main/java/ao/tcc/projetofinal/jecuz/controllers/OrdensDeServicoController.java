@@ -27,7 +27,7 @@ public class OrdensDeServicoController {
     }
 
     @PostMapping(path = "/cliente/{idCliente}/diarista/{idDiarista}/os/{idOS}")
-    public ResponseEntity<OrdensDeServico> gerarOS(@PathVariable("idCliente") String idCliente, @PathVariable("idDiarista") String idDiarista, @PathVariable("idOS") String idOS) throws ParseException {
+    public ResponseEntity<OrdensDeServico> gerarOS(@PathVariable("idCliente") String idCliente, @PathVariable("idDiarista") String idDiarista, @PathVariable("idOS") String idOS) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, idOS));
     }

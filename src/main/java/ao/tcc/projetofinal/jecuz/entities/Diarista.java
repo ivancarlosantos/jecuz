@@ -1,5 +1,6 @@
 package ao.tcc.projetofinal.jecuz.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,6 +34,11 @@ public class Diarista  implements Serializable{
     private String verificationCode;
 
     private boolean enabled;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    @JsonBackReference
+    private Cliente cliente;
 
     @OneToMany(mappedBy = "diarista", fetch = FetchType.LAZY)
     @JsonManagedReference

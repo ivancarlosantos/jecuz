@@ -1,9 +1,11 @@
 package ao.tcc.projetofinal.jecuz.services;
 
 import ao.tcc.projetofinal.jecuz.dto.DiaristaDTO;
+import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
+import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
 import ao.tcc.projetofinal.jecuz.utils.GenerateCode;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
@@ -23,6 +25,7 @@ import java.util.List;
 @Service
 public class DiaristaService {
 
+    private final ClienteRepository clienteRepository;
     private final DiaristaRepository diaristaRepository;
     private final MailService mailService;
     private final ModelMapper mapper;
@@ -39,7 +42,6 @@ public class DiaristaService {
 
         Diarista diarista = Diarista
                 .builder()
-                .id(dto.getId())
                 .nome(dto.getNome())
                 .nascimento(nascimento)
                 .telefone(dto.getTelefone())
@@ -56,7 +58,7 @@ public class DiaristaService {
         return mapper.map(diaristaSaved, DiaristaDTO.class);
     }
 
-    public List<DiaristaDTO> listAll() {
+    public List<Diarista> listAll() {
         return diaristaRepository
                 .findAll(Sort.by("nome"))
                 .stream()
@@ -68,14 +70,13 @@ public class DiaristaService {
                     } catch (ParseException e) {
                         throw new RegraDeNegocioException(e.getMessage());
                     }
-
-                    return mapper.map(diarista, DiaristaDTO.class);
+                    return diarista;
                 }).toList();
     }
 
-    public DiaristaDTO findByID(String value) {
+    public Diarista findByID(String value) {
         Long id = ValidationParameter.validate(value);
-        Diarista diarista = diaristaRepository
+        return diaristaRepository
                 .findById(id)
                 .stream()
                 .map(d -> {
@@ -89,8 +90,7 @@ public class DiaristaService {
                     d.setNascimento(date);
                     return d;
                 }).findAny()
-                .orElseThrow(() -> new RegraDeNegocioException("ID não encontrado"));
-        return mapper.map(diarista, DiaristaDTO.class);
+                  .orElseThrow(() -> new RegraDeNegocioException("Diarista não encontrada"));
     }
 
     private DiaristaDTO findDiarista(DiaristaDTO dto) {

@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 @SpringBootApplication
 public class JecuzAppApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(JecuzAppApplication.class, args);
-		log.info("Application UP on status: "+ HttpStatus.OK);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(JecuzAppApplication.class, args);
+        log.info("Application UP on status: " + HttpStatus.OK);
+    }
 
 }

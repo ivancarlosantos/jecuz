@@ -1,5 +1,6 @@
 package ao.tcc.projetofinal.jecuz.dto;
 
+import ao.tcc.projetofinal.jecuz.enums.Icone;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.format.annotation.NumberFormat;
@@ -86,8 +87,8 @@ public class ServicoDTO {
     @PositiveOrZero
     @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,##0.00")
     private BigDecimal valorOutros;
-    /*@NotNull
-    private Icone icone;*/
+    @NotNull
+    private Icone icone;
 
     @NotNull
     @Positive

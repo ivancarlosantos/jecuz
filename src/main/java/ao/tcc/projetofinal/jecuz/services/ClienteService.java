@@ -2,11 +2,9 @@ package ao.tcc.projetofinal.jecuz.services;
 
 import ao.tcc.projetofinal.jecuz.dto.ClienteDTO;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
-import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
-import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,7 +20,6 @@ import java.util.List;
 @Service
 public class ClienteService {
 
-    private final DiaristaRepository diaristaRepository;
     private final ClienteRepository clienteRepository;
     private final ModelMapper mapper;
 
@@ -36,7 +33,6 @@ public class ClienteService {
         Date nascimento = sdf.parse(dto.getNascimento());
         Cliente cliente = Cliente
                 .builder()
-                .id(dto.getId())
                 .nome(dto.getNome())
                 .nascimento(nascimento)
                 .telefone(dto.getTelefone())
@@ -49,26 +45,13 @@ public class ClienteService {
         return mapper.map(clienteSaved, ClienteDTO.class);
     }
 
-    public ClienteDTO joinClienteDiarista(String idCliente, String idDiarista){
-        Long indexCliente = ValidationParameter.validate(idCliente);
-        Long indexDiarista = ValidationParameter.validate(idDiarista);
-
-        Cliente cliente = clienteRepository.findById(indexCliente).orElseThrow(() -> new RegraDeNegocioException("ID Cliente Não Encontrado"));
-        Diarista diarista = diaristaRepository.findById(indexDiarista).orElseThrow(() -> new RegraDeNegocioException("ID Cliente Não Encontrado"));
-
-        cliente.setDiarista(diarista);
-
-        clienteRepository.save(cliente);
-
-        return mapper.map(cliente, ClienteDTO.class);
-    }
-
     public List<ClienteDTO> listAll() {
         return clienteRepository
                 .findAll(Sort.by("nome"))
                 .stream()
                 .map(cliente -> {
                     try {
+
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = sdf.parse(String.valueOf(cliente.getNascimento()));
                         cliente.setNascimento(date);
@@ -96,7 +79,7 @@ public class ClienteService {
                     c.setNascimento(date);
                     return c;
                 }).findAny()
-                .orElseThrow(() -> new RegraDeNegocioException("ID não encontrado"));
+                  .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
         return mapper.map(cliente, ClienteDTO.class);
     }
 

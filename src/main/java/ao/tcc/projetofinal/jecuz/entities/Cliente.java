@@ -1,10 +1,15 @@
 package ao.tcc.projetofinal.jecuz.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Cliente implements Serializable {
+public class Cliente  implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +33,7 @@ public class Cliente implements Serializable {
 
     private String email;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "diarista_id")
-    private Diarista diarista;
+    @OneToMany(mappedBy = "cliente")
+    @JsonManagedReference
+    private List<Diarista> diaristas;
 }

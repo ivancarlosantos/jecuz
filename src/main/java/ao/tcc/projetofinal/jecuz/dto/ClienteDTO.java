@@ -1,6 +1,5 @@
 package ao.tcc.projetofinal.jecuz.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -35,6 +34,4 @@ public class ClienteDTO {
     @NotBlank
     @Email
     private String email;
-
-    private DiaristaDTO diarista;
 }

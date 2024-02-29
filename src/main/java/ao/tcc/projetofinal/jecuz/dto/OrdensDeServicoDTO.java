@@ -1,7 +1,5 @@
 package ao.tcc.projetofinal.jecuz.dto;
 
-import ao.tcc.projetofinal.jecuz.entities.Cliente;
-import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -13,16 +11,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class
- OrdensDeServicoDTO {
+public class OrdensDeServicoDTO {
 
     private Long id;
 
     private String numOrdemServico;
 
     private String cliente;
-
-    private String nomeDiarista;
 
     @NotEmpty(message = "campo obrigatório")
     @NotBlank

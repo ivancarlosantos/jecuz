@@ -20,14 +20,20 @@ public class OrdensDeServicoController {
 
     private final OrdensDeServicoService ordensDeServicoService;
 
-    @PostMapping(path = "/cliente/{idCliente}/diarista/{idDiarista}")
-    public ResponseEntity<OrdensDeServicoDTO> gerarOrdem(@PathVariable("idCliente") Long idCliente, @PathVariable("idDiarista") Long idDiarista, @RequestBody @Valid OrdensDeServicoDTO dto) throws ParseException {
+    @PostMapping(path = "/save")
+    public ResponseEntity<OrdensDeServicoDTO> save(@RequestBody OrdensDeServicoDTO dto) throws ParseException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.save(dto));
+    }
+
+    @PostMapping(path = "/cliente/{idCliente}/diarista/{idDiarista}/os/{idOS}")
+    public ResponseEntity<OrdensDeServico> gerarOS(@PathVariable("idCliente") String idCliente, @PathVariable("idDiarista") String idDiarista, @PathVariable("idOS") String idOS) throws ParseException {
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, idOS));
     }
 
     @GetMapping(path = "/all")
-    public ResponseEntity<List<OrdensDeServicoDTO>> findAll() {
+    public ResponseEntity<List<OrdensDeServico>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(ordensDeServicoService.findOSAll());
     }
 

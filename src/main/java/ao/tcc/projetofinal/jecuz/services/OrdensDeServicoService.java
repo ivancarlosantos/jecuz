@@ -18,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,45 +29,52 @@ public class OrdensDeServicoService {
     private final DiaristaRepository diaristaRepository;
     private final ModelMapper mapper;
 
-    public OrdensDeServicoDTO gerarOrdem(Long idCliente, Long idDiarista, OrdensDeServicoDTO dto) throws ParseException {
+    public OrdensDeServicoDTO save(OrdensDeServicoDTO dto) throws ParseException {
 
-        Cliente c = clienteRepository.findById(idCliente).orElseThrow(() -> new RegraDeNegocioException("ID Cliente não encontrado"));
-        Diarista d = diaristaRepository.findById(idDiarista).orElseThrow(() -> new RegraDeNegocioException("ID Diarista não encontrado"));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date data = sdf.parse(dto.getDataSolicitacao());
 
         OrdensDeServico os = OrdensDeServico.builder()
                 .numOrdemServico(GerarNumeroOS.gerar())
-                .nomeCliente(c.getNome().toUpperCase())
-                .diarista(d)
+                .nomeCliente(dto.getCliente())
                 .dataSolicitacao(data)
                 .descricaoTarefa(dto.getDescricaoTarefa())
                 .valorTotal(dto.getValorTotal())
                 .dataExecucao(LocalDateTime.now())
                 .build();
 
-        List<OrdensDeServico> ordensDeServicos = new LinkedList<>();
-        ordensDeServicos.add(os);
-
-        d.setOrdensDeServicos(ordensDeServicos);
-
-        clienteRepository.save(c);
-        diaristaRepository.save(d);
         ordensDeServicoRepository.save(os);
 
         return mapper.map(os, OrdensDeServicoDTO.class);
     }
 
-    public List<OrdensDeServicoDTO> findOSAll(){
+    public List<OrdensDeServico> findOSAll(){
         return ordensDeServicoRepository
                 .findAll()
                 .stream()
-                .map(os -> mapper.map(os, OrdensDeServicoDTO.class))
                 .toList();
     }
 
     public OrdensDeServico findOS(String value){
         Long id = ValidationParameter.validate(value);
         return ordensDeServicoRepository.findById(id).orElseThrow(() -> new RegraDeNegocioException("ID O.S não encontrado"));
+    }
+
+    public OrdensDeServico gerarOrdem(String idCliente, String idDiarista, String idOS){
+        Long indexCliente = ValidationParameter.validate(idCliente);
+        Long indexDiarista = ValidationParameter.validate(idDiarista);
+        Long indexOS = ValidationParameter.validate(idOS);
+
+        Cliente cliente = clienteRepository.findById(indexCliente).orElseThrow(() -> new RegraDeNegocioException("ID Cliente não encontrado"));
+        Diarista diarista = diaristaRepository.findById(indexDiarista).orElseThrow(() -> new RegraDeNegocioException("ID Diarista não encontrado"));
+        OrdensDeServico os = ordensDeServicoRepository.findById(indexOS).orElseThrow(() -> new RegraDeNegocioException("ID O.S não encontrado"));
+
+        os.setDiarista(diarista);
+        os.setNomeCliente(cliente.getNome());
+
+        diaristaRepository.save(diarista);
+        ordensDeServicoRepository.save(os);
+
+        return os;
     }
 }

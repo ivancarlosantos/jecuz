@@ -67,12 +67,6 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findByID(id));
     }
 
-    @PostMapping(path = "/{idCliente}/diarista/{idDiarista}")
-    public ResponseEntity<Cliente> update(@PathVariable(value = "idCliente") String idCliente, @PathVariable(value = "idDiarista") String idDiarista) {
-
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(clienteService.joinClienteDiarista(idCliente, idDiarista));
-    }
-
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id, @RequestBody ClienteDTO dto) {
 

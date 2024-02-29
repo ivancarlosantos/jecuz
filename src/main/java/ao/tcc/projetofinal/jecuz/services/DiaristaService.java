@@ -58,7 +58,7 @@ public class DiaristaService {
         return mapper.map(diaristaSaved, DiaristaDTO.class);
     }
 
-    public List<DiaristaDTO> listAll() {
+    public List<Diarista> listAll() {
         return diaristaRepository
                 .findAll(Sort.by("nome"))
                 .stream()
@@ -70,14 +70,13 @@ public class DiaristaService {
                     } catch (ParseException e) {
                         throw new RegraDeNegocioException(e.getMessage());
                     }
-
-                    return mapper.map(diarista, DiaristaDTO.class);
+                    return diarista;
                 }).toList();
     }
 
-    public DiaristaDTO findByID(String value) {
+    public Diarista findByID(String value) {
         Long id = ValidationParameter.validate(value);
-        Diarista diarista = diaristaRepository
+        return diaristaRepository
                 .findById(id)
                 .stream()
                 .map(d -> {
@@ -91,8 +90,7 @@ public class DiaristaService {
                     d.setNascimento(date);
                     return d;
                 }).findAny()
-                .orElseThrow(() -> new RegraDeNegocioException("ID não encontrado"));
-        return mapper.map(diarista, DiaristaDTO.class);
+                  .orElseThrow(() -> new RegraDeNegocioException("Diarista não encontrada"));
     }
 
     private DiaristaDTO findDiarista(DiaristaDTO dto) {

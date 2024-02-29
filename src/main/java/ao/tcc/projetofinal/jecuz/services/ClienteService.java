@@ -2,11 +2,9 @@ package ao.tcc.projetofinal.jecuz.services;
 
 import ao.tcc.projetofinal.jecuz.dto.ClienteDTO;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
-import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
-import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,18 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ClienteService {
 
-    private final DiaristaRepository diaristaRepository;
     private final ClienteRepository clienteRepository;
-    private final OrdensDeServicoService ordensDeServicoService;
     private final ModelMapper mapper;
 
     public ClienteDTO save(ClienteDTO dto) throws ParseException {
@@ -39,7 +33,6 @@ public class ClienteService {
         Date nascimento = sdf.parse(dto.getNascimento());
         Cliente cliente = Cliente
                 .builder()
-                .id(dto.getId())
                 .nome(dto.getNome())
                 .nascimento(nascimento)
                 .telefone(dto.getTelefone())
@@ -50,23 +43,6 @@ public class ClienteService {
         Cliente clienteSaved = clienteRepository.save(cliente);
 
         return mapper.map(clienteSaved, ClienteDTO.class);
-    }
-
-    public Cliente joinClienteDiarista(String idCliente, String idDiarista) {
-        Long indexCliente = ValidationParameter.validate(idCliente);
-        Long indexDiarista = ValidationParameter.validate(idDiarista);
-
-        Cliente cliente = clienteRepository.findById(indexCliente).orElseThrow(() -> new RegraDeNegocioException("ID Cliente Não Encontrado"));
-        Diarista diarista = diaristaRepository.findById(indexDiarista).orElseThrow(() -> new RegraDeNegocioException("ID Cliente Não Encontrado"));
-        List<Diarista> diaristaList = new ArrayList<>();
-
-        cliente.setDiaristas(diaristaList);
-        diarista.setCliente(cliente);
-
-        diaristaRepository.save(diarista);
-        clienteRepository.save(cliente);
-
-        return cliente;
     }
 
     public List<ClienteDTO> listAll() {
@@ -102,7 +78,7 @@ public class ClienteService {
                     c.setNascimento(date);
                     return c;
                 }).findAny()
-                .orElseThrow(() -> new RegraDeNegocioException("ID não encontrado"));
+                  .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
         return mapper.map(cliente, ClienteDTO.class);
     }
 

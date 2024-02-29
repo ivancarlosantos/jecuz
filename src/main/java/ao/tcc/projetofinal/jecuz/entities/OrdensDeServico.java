@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -25,11 +24,6 @@ public class OrdensDeServico implements Serializable {
 
     private String nomeCliente;
 
-    @ManyToOne
-    @JoinColumn(name = "diarista_id")
-    @JsonBackReference
-    private Diarista diarista;
-
     private Date dataSolicitacao; //padrão 01/01/2000
 
     private String descricaoTarefa;
@@ -37,4 +31,9 @@ public class OrdensDeServico implements Serializable {
     private Double valorTotal;
 
     private LocalDateTime dataExecucao;
+
+    @ManyToOne
+    @JoinColumn(name = "diarista_id")
+    @JsonBackReference
+    private Diarista diarista;
 }

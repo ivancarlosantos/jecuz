@@ -2,6 +2,7 @@ package ao.tcc.projetofinal.jecuz.controllers;
 
 import ao.tcc.projetofinal.jecuz.dto.DiaristaDTO;
 import ao.tcc.projetofinal.jecuz.dto.ServicoDTO;
+import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.services.DiaristaService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -46,7 +47,7 @@ public class DiaristaController {
     }
 
     @GetMapping(path = "/list")
-    public ResponseEntity<List<DiaristaDTO>> findAll() {
+    public ResponseEntity<List<Diarista>> findAll() {
 
         return ResponseEntity.status(HttpStatus.OK).body(diaristaService.listAll());
     }
@@ -61,7 +62,7 @@ public class DiaristaController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<DiaristaDTO> findByID(@PathVariable String id) {
+    public ResponseEntity<Diarista> findByID(@PathVariable String id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(diaristaService.findByID(id));
     }

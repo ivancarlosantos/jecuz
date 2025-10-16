@@ -1,6 +1,6 @@
 package ao.tcc.projetofinal.jecuz.services;
 
-import ao.tcc.projetofinal.jecuz.dto.MunicipioDTO;
+import ao.tcc.projetofinal.jecuz.dto.municipio.MunicipioDTO;
 import ao.tcc.projetofinal.jecuz.entities.Municipio;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.MunicipioRepository;

@@ -1,6 +1,6 @@
-package ao.tcc.projetofinal.jecuz.services;
+package ao.tcc.projetofinal.jecuz.services.ordens;
 
-import ao.tcc.projetofinal.jecuz.dto.OrdensDeServicoDTO;
+import ao.tcc.projetofinal.jecuz.dto.ordens.OrdensDeServicoDTO;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.entities.OrdensDeServico;

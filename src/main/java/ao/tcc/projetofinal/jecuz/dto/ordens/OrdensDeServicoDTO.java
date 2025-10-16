@@ -1,5 +1,6 @@
-package ao.tcc.projetofinal.jecuz.dto;
+package ao.tcc.projetofinal.jecuz.dto.ordens;
 
+import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;

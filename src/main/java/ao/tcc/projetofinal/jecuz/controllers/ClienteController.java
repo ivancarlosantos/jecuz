@@ -1,20 +1,18 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
-import ao.tcc.projetofinal.jecuz.dto.ClienteDTO;
-import ao.tcc.projetofinal.jecuz.entities.Cliente;
-import ao.tcc.projetofinal.jecuz.services.ClienteService;
+import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteDTO;
+import ao.tcc.projetofinal.jecuz.services.cliente.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping(path = "/admin/usuarios")
 public class ClienteController {
 

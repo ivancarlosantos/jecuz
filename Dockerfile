@@ -1,19 +1,27 @@
-FROM maven:3.8.5-openjdk-17-slim AS build
+FROM maven:3.9.9-eclipse-temurin-17-alpine AS builder
 
-COPY /src /app/src
+ADD /src /app/src
 
-COPY /pom.xml /app
+ADD /pom.xml /app
 
 RUN mvn -f /app/pom.xml clean package -Dmaven.test.skip
 
-FROM openjdk:17
+FROM alpine:3.21.3
 
-LABEL key="app.jecuz"
+RUN apk update
+
+RUN apk add openjdk17-jre
+
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+USER appuser
 
 WORKDIR /usr/src/app
 
-COPY --from=build /app/target/*.jar jecuz.jar
+COPY --from=builder /app/target/*.jar jecuz.jar
 
 EXPOSE 8080
+
+LABEL key="app.jecuz"
 
 ENTRYPOINT ["java", "-jar", "jecuz.jar"]

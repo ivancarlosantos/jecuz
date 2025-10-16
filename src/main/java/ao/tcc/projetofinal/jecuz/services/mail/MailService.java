@@ -1,6 +1,6 @@
-package ao.tcc.projetofinal.jecuz.services;
+package ao.tcc.projetofinal.jecuz.services.mail;
 
-import ao.tcc.projetofinal.jecuz.dto.DiaristaDTO;
+import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaDTO;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

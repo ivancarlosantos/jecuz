@@ -1,5 +1,6 @@
-package ao.tcc.projetofinal.jecuz.dto;
+package ao.tcc.projetofinal.jecuz.dto.diarista;
 
+import ao.tcc.projetofinal.jecuz.dto.ordens.OrdensDeServicoDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

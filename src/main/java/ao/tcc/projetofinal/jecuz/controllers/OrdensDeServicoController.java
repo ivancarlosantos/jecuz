@@ -1,9 +1,8 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
-import ao.tcc.projetofinal.jecuz.dto.OrdensDeServicoDTO;
+import ao.tcc.projetofinal.jecuz.dto.ordens.OrdensDeServicoDTO;
 import ao.tcc.projetofinal.jecuz.entities.OrdensDeServico;
-import ao.tcc.projetofinal.jecuz.services.OrdensDeServicoService;
-import jakarta.validation.Valid;
+import ao.tcc.projetofinal.jecuz.services.ordens.OrdensDeServicoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @RestController

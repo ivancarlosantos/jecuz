@@ -1,12 +1,12 @@
-package ao.tcc.projetofinal.jecuz.services;
+package ao.tcc.projetofinal.jecuz.services.diarista;
 
-import ao.tcc.projetofinal.jecuz.dto.DiaristaDTO;
-import ao.tcc.projetofinal.jecuz.entities.Cliente;
+import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaDTO;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
+import ao.tcc.projetofinal.jecuz.services.mail.MailService;
 import ao.tcc.projetofinal.jecuz.utils.GenerateCode;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import jakarta.mail.MessagingException;
@@ -40,22 +40,21 @@ public class DiaristaService {
         Date nascimento = sdf.parse(dto.getNascimento());
         String code = GenerateCode.generateCode(64);
 
-        Diarista diarista = Diarista
-                .builder()
-                .nome(dto.getNome())
-                .nascimento(nascimento)
-                .telefone(dto.getTelefone())
-                .numeroBi(dto.getNumeroBi())
-                .email(dto.getEmail())
-                .verificationCode(code)
-                .enabled(false)
-                .build();
+        Diarista diarista = Diarista.builder()
+                                    .nome(dto.getNome())
+                                    .nascimento(nascimento)
+                                    .telefone(dto.getTelefone())
+                                    .numeroBi(dto.getNumeroBi())
+                                    .email(dto.getEmail())
+                                    .verificationCode(code)
+                                    .enabled(false)
+                                    .build();
 
-        Diarista diaristaSaved = diaristaRepository.save(diarista);
+        Diarista saved = diaristaRepository.save(diarista);
 
-        mailService.sendVerificationEmail(diaristaSaved);
+        mailService.sendVerificationEmail(saved);
 
-        return mapper.map(diaristaSaved, DiaristaDTO.class);
+        return mapper.map(saved, DiaristaDTO.class);
     }
 
     public List<Diarista> listAll() {

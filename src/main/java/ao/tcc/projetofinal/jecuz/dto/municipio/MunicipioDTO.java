@@ -1,4 +1,4 @@
-package ao.tcc.projetofinal.jecuz.dto;
+package ao.tcc.projetofinal.jecuz.dto.municipio;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

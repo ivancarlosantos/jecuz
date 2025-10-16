@@ -1,4 +1,4 @@
-package ao.tcc.projetofinal.jecuz.dto;
+package ao.tcc.projetofinal.jecuz.dto.cliente;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

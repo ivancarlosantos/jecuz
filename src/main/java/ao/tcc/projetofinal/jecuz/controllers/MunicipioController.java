@@ -1,6 +1,6 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
-import ao.tcc.projetofinal.jecuz.dto.MunicipioDTO;
+import ao.tcc.projetofinal.jecuz.dto.municipio.MunicipioDTO;
 import ao.tcc.projetofinal.jecuz.services.MunicipioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,8 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
-import ao.tcc.projetofinal.jecuz.dto.DiaristaDTO;
-import ao.tcc.projetofinal.jecuz.dto.ServicoDTO;
+import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaDTO;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
-import ao.tcc.projetofinal.jecuz.services.DiaristaService;
+import ao.tcc.projetofinal.jecuz.services.diarista.DiaristaService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

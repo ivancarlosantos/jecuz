@@ -1,6 +1,7 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
-import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteDTO;
+import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
+import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteResponse;
 import ao.tcc.projetofinal.jecuz.services.cliente.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,32 +14,25 @@ import java.text.ParseException;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/admin/usuarios")
+@RequestMapping(path = "/api/cliente")
 public class ClienteController {
 
     private final ClienteService clienteService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity<ClienteDTO> save(@RequestBody @Valid ClienteDTO dto) throws ParseException {
+    public ResponseEntity<ClienteResponse> save(@RequestBody @Valid ClienteRequest request) throws ParseException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(request));
     }
 
-    @GetMapping
-    public ModelAndView buscarTodos(){
-        var modelAndView= new ModelAndView("admin/usuario/lista");
-        modelAndView.addObject("usuarios", clienteService.listAll());
-        return modelAndView;
-    }
-
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<ClienteDTO> findByID(@PathVariable String id) {
+    @GetMapping(path = "/findByID")
+    public ResponseEntity<ClienteResponse> findByID(@RequestParam String id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findByID(id));
     }
 
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id, @RequestBody ClienteDTO dto) {
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<String> delete(@RequestParam Long id, @RequestBody ClienteResponse dto) {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }

@@ -1,10 +1,12 @@
 package ao.tcc.projetofinal.jecuz.services.cliente;
 
-import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteDTO;
+import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
+import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteResponse;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
+import ao.tcc.projetofinal.jecuz.services.istrategy.INewClienteValidation;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,31 +22,34 @@ import java.util.List;
 @Service
 public class ClienteService {
 
+    private final List<INewClienteValidation> newClienteValidations;
     private final ClienteRepository clienteRepository;
     private final ModelMapper mapper;
 
-    public ClienteDTO save(ClienteDTO dto) throws ParseException {
+    public ClienteResponse save(ClienteRequest request) throws ParseException {
 
-        if (findByCliente(dto) != null) {
+        newClienteValidations.forEach(validation -> validation.execute(request));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date nascimento = sdf.parse(request.getNascimento());
+        Cliente cliente = Cliente.builder()
+                                 .nome(request.getNome())
+                                 .nascimento(nascimento.toString())
+                                 .telefone(request.getTelefone())
+                                 .numeroBi(request.getNumeroBi())
+                                 .email(request.getEmail())
+                                 .build();
+
+        if (findByCliente(request) != null) {
             throw new DataViolationException("Cliente já Cadastrado");
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date nascimento = sdf.parse(dto.getNascimento());
-        Cliente cliente = Cliente.builder()
-                                 .nome(dto.getNome())
-                                 .nascimento(nascimento.toString())
-                                 .telefone(dto.getTelefone())
-                                 .numeroBi(dto.getNumeroBi())
-                                 .email(dto.getEmail())
-                                 .build();
-
         Cliente saved = clienteRepository.save(cliente);
 
-        return mapper.map(saved, ClienteDTO.class);
+        return mapper.map(saved, ClienteResponse.class);
     }
 
-    public List<ClienteDTO> listAll() {
+    public List<ClienteResponse> listAll() {
         return clienteRepository.findAll(Sort.by("nome"))
                                 .stream()
                                 .map(cliente -> {
@@ -55,17 +60,17 @@ public class ClienteService {
                                     } catch (ParseException e) {
                                         throw new RegraDeNegocioException(e.getMessage());
                                     }
-                                    return mapper.map(cliente, ClienteDTO.class);
+                                    return mapper.map(cliente, ClienteResponse.class);
                                 }).toList();
     }
 
-    public ClienteDTO findByID(String value) {
+    public ClienteResponse findByID(String value) {
         Long id = ValidationParameter.validate(value);
         Cliente cliente = clienteRepository.findById(id)
                                            .stream()
                                            .map(c -> {
                                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                               Date date = null;
+                                               Date date;
                                                try {
                                                    date = sdf.parse(String.valueOf(c.getNascimento()));
                                                } catch (ParseException e) {
@@ -76,13 +81,13 @@ public class ClienteService {
                                            }).findAny()
                                              .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
 
-        return mapper.map(cliente, ClienteDTO.class);
+        return mapper.map(cliente, ClienteResponse.class);
     }
 
-    private ClienteDTO findByCliente(ClienteDTO dto) {
-        Cliente cliente = clienteRepository.findByCliente(dto.getEmail());
+    private ClienteResponse findByCliente(ClienteRequest request) {
+        Cliente cliente = clienteRepository.findByCliente(request.getEmail());
         if (cliente != null) {
-            return mapper.map(cliente, ClienteDTO.class);
+            return mapper.map(cliente, ClienteResponse.class);
         }
         return null;
     }

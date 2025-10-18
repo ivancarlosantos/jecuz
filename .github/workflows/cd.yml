@@ -2,9 +2,7 @@ name: Continuous Delivery [CD]
 
 on:
   push:
-    branches:
-        - ivan
-        - kaundaB
+    branches: [ release ]
 jobs:
   build:
     strategy:

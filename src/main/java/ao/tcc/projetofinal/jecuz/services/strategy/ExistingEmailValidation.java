@@ -19,13 +19,13 @@ public class ExistingEmailValidation implements INewClienteValidation {
     public void execute(ClienteRequest request) {
         log.info("Validando se e-mail existe");
         if(!isValidEmail(request.getEmail())){
-            throw new VerifyFieldsException("Ja existe um usuario registrado com esse e-mail");
+            throw new VerifyFieldsException("Já existe um usuario registrado com esse e-mail");
         }
     }
 
     private boolean isValidEmail(String email){
         return repository.findAll()
                          .stream()
-                         .noneMatch(users -> repository.findById(users.getId()).get().getEmail().equals(email));
+                         .noneMatch(cliente -> repository.findById(cliente.getId()).get().getEmail().equals(email));
     }
 }

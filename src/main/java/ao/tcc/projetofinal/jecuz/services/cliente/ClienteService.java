@@ -40,10 +40,6 @@ public class ClienteService {
                                  .email(request.getEmail())
                                  .build();
 
-        if (findByCliente(request) != null) {
-            throw new DataViolationException("Cliente já Cadastrado");
-        }
-
         Cliente saved = clienteRepository.save(cliente);
 
         return mapper.map(saved, ClienteResponse.class);
@@ -82,13 +78,5 @@ public class ClienteService {
                                              .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
 
         return mapper.map(cliente, ClienteResponse.class);
-    }
-
-    private ClienteResponse findByCliente(ClienteRequest request) {
-        Cliente cliente = clienteRepository.findByCliente(request.getEmail());
-        if (cliente != null) {
-            return mapper.map(cliente, ClienteResponse.class);
-        }
-        return null;
     }
 }

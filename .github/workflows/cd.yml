@@ -59,7 +59,7 @@ jobs:
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#1c22bd"
           username: ${{ github.actor }}
-          message: ":rocket: Algo de novo na branch feature :rocket:\nEnviado uma nova release para [jecuz]\nStatus :rocket: ${{ job.status }} :rocket:\n[Ver Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+          message: ":rocket: Algo de novo na branch release :rocket:\nEnviado uma nova release para [jecuz]\nStatus :rocket: ${{ job.status }} :rocket:\n[Ver Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
 
       - name: Notify Discord Failure Deploy
         if: failure()

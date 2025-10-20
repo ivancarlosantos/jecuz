@@ -19,10 +19,9 @@ public class ConnectionTest implements Serializable{
 
     public static ConnectionTest test() throws UnknownHostException {
 
-        return ConnectionTest
-                .builder()
-                .address(InetAddress.getLocalHost())
-                .dateCreateAt(new Date().toString())
-                .build();
+        return ConnectionTest.builder()
+                             .address(InetAddress.getLocalHost())
+                             .dateCreateAt(new Date().toString())
+                             .build();
     }
 }

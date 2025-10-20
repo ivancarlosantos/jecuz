@@ -23,7 +23,7 @@ public class Diarista  implements Serializable{
 
     private String nome;
 
-    private Date nascimento;
+    private String nascimento;
 
     private String telefone;
 

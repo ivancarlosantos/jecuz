@@ -3,10 +3,9 @@ package ao.tcc.projetofinal.jecuz.services.cliente;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteResponse;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
-import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
-import ao.tcc.projetofinal.jecuz.services.istrategy.INewClienteValidation;
+import ao.tcc.projetofinal.jecuz.services.istrategy.IValidation;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,13 +21,13 @@ import java.util.List;
 @Service
 public class ClienteService {
 
-    private final List<INewClienteValidation> newClienteValidations;
+    private final List<IValidation> validations;
     private final ClienteRepository clienteRepository;
     private final ModelMapper mapper;
 
     public ClienteResponse save(ClienteRequest request) throws ParseException {
 
-        newClienteValidations.forEach(validation -> validation.execute(request));
+        validations.forEach(validation -> validation.execute(request));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date nascimento = sdf.parse(request.getNascimento());
@@ -61,21 +60,9 @@ public class ClienteService {
     }
 
     public ClienteResponse findByID(String value) {
-        Long id = ValidationParameter.validate(value);
+        Long id         = ValidationParameter.validate(value);
         Cliente cliente = clienteRepository.findById(id)
-                                           .stream()
-                                           .map(c -> {
-                                               SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                               Date date;
-                                               try {
-                                                   date = sdf.parse(String.valueOf(c.getNascimento()));
-                                               } catch (ParseException e) {
-                                                   throw new RegraDeNegocioException(e.getMessage());
-                                               }
-                                               c.setNascimento(date.toString());
-                                               return c;
-                                           }).findAny()
-                                             .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
+                                           .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
 
         return mapper.map(cliente, ClienteResponse.class);
     }

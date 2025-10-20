@@ -1,18 +1,17 @@
 package ao.tcc.projetofinal.jecuz.services.diarista;
 
-import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaDTO;
+import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaRequest;
+import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaResponse;
+import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaSOResponse;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
-import ao.tcc.projetofinal.jecuz.exceptions.DataViolationException;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
-import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
-import ao.tcc.projetofinal.jecuz.services.mail.MailService;
+import ao.tcc.projetofinal.jecuz.services.istrategy.IValidation;
 import ao.tcc.projetofinal.jecuz.utils.GenerateCode;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -25,39 +24,34 @@ import java.util.List;
 @Service
 public class DiaristaService {
 
-    private final ClienteRepository clienteRepository;
+    private final List<IValidation> validations;
     private final DiaristaRepository diaristaRepository;
-    private final MailService mailService;
     private final ModelMapper mapper;
 
-    public DiaristaDTO save(DiaristaDTO dto) throws ParseException, MessagingException, UnsupportedEncodingException {
+    public DiaristaResponse save(DiaristaRequest request) throws ParseException {
 
-        if (findDiarista(dto) != null || findNumeroBi(dto) != null) {
-            throw new DataViolationException("Diarista já Cadastrada");
-        }
+        validations.forEach(validation -> validation.execute(request));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date nascimento = sdf.parse(dto.getNascimento());
+        Date nascimento = sdf.parse(request.getNascimento());
         String code = GenerateCode.generateCode(64);
 
         Diarista diarista = Diarista.builder()
-                                    .nome(dto.getNome())
-                                    .nascimento(nascimento)
-                                    .telefone(dto.getTelefone())
-                                    .numeroBi(dto.getNumeroBi())
-                                    .email(dto.getEmail())
+                                    .nome(request.getNome())
+                                    .nascimento(nascimento.toString())
+                                    .telefone(request.getTelefone())
+                                    .numeroBi(request.getNumeroBi())
+                                    .email(request.getEmail())
                                     .verificationCode(code)
                                     .enabled(false)
                                     .build();
 
         Diarista saved = diaristaRepository.save(diarista);
 
-        mailService.sendVerificationEmail(saved);
-
-        return mapper.map(saved, DiaristaDTO.class);
+        return mapper.map(saved, DiaristaResponse.class);
     }
 
-    public List<Diarista> listAll() {
+    /*public List<D> listAll() {
         return diaristaRepository
                 .findAll(Sort.by("nome"))
                 .stream()
@@ -72,53 +66,27 @@ public class DiaristaService {
                     }
                     return diarista;
                 }).toList();
-    }
+    }*/
 
-    public Diarista findByID(String value) {
+    public DiaristaSOResponse findByID(String value) {
         Long id = ValidationParameter.validate(value);
-        return diaristaRepository
-                .findById(id)
-                .stream()
-                .map(d -> {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date date = null;
-                    try {
-                        date = sdf.parse(String.valueOf(d.getNascimento()));
-                    } catch (ParseException e) {
-                        throw new RegraDeNegocioException(e.getMessage());
-                    }
-                    d.setNascimento(date);
-                    return d;
-                }).findAny()
-                  .orElseThrow(() -> new RegraDeNegocioException("Diarista não encontrada"));
+        return diaristaRepository.findById(id)
+                                 .map(diarista -> mapper.map(diarista, DiaristaSOResponse.class))
+                                 .orElseThrow(() -> new RegraDeNegocioException("Diarista não encontrada"));
     }
 
-    private DiaristaDTO findDiarista(DiaristaDTO dto) {
-        Diarista diarista = diaristaRepository.findByDiarista(dto.getEmail());
+    private DiaristaResponse findDiarista(DiaristaRequest request) {
+        Diarista diarista = diaristaRepository.findByDiarista(request.getEmail());
         if (diarista != null) {
-            return mapper.map(diarista, DiaristaDTO.class);
+            return mapper.map(diarista, DiaristaResponse.class);
         }
         return null;
     }
 
-    public boolean verify(String verificationCode) {
-        Diarista diarista = diaristaRepository.findByVerificationCode(verificationCode);
-
-        if (diarista == null || diarista.isEnabled()) {
-            return false;
-        } else {
-            diarista.setVerificationCode("--.--");
-            diarista.setEnabled(true);
-            diaristaRepository.save(diarista);
-
-            return true;
-        }
-    }
-
-    private DiaristaDTO findNumeroBi(DiaristaDTO dto) {
-        Diarista diarista = diaristaRepository.findByNumeroBi(dto.getNumeroBi());
+    private DiaristaResponse findNumeroBi(DiaristaRequest request) {
+        Diarista diarista = diaristaRepository.findByNumeroBi(request.getNumeroBi());
         if (diarista != null) {
-            return mapper.map(diarista, DiaristaDTO.class);
+            return mapper.map(diarista, DiaristaResponse.class);
         }
         return null;
     }

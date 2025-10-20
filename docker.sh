@@ -9,6 +9,11 @@ sleep 3
 curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
 sleep 3
 
+echo 'Instalar Portainer'
+sleep 2
+docker run --name portainer --network=jecuz_app -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce:lts
+sleep 2
+
 echo "Instalar Postgres"
 docker run --name='jecuz_db' --network='jecuz_app' -d -p 5432:5432 -e POSTGRES_PASSWORD='12345' -e POSTGRES_USER='postgres' -e POSTGRES_DB='jecuz_db' postgres:15
 sleep 5

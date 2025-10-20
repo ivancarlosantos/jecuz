@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -24,13 +22,13 @@ public class OrdensDeServico implements Serializable {
 
     private String nomeCliente;
 
-    private Date dataSolicitacao; //padrão 01/01/2000
+    private String dataSolicitacao; //padrão 01/01/2000
 
     private String descricaoTarefa;
 
     private Double valorTotal;
 
-    private LocalDateTime dataExecucao;
+    private String dataExecucao;
 
     @ManyToOne
     @JoinColumn(name = "diarista_id")

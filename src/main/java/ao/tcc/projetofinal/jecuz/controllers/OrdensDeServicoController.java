@@ -1,6 +1,8 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
-import ao.tcc.projetofinal.jecuz.dto.ordens.OrdensDeServicoDTO;
+import ao.tcc.projetofinal.jecuz.dto.servicos.OrdemServicoRequest;
+import ao.tcc.projetofinal.jecuz.dto.servicos.OrdemServicoResponse;
+import ao.tcc.projetofinal.jecuz.dto.servicos.OrdensDeServicoDTO;
 import ao.tcc.projetofinal.jecuz.entities.OrdensDeServico;
 import ao.tcc.projetofinal.jecuz.services.ordens.OrdensDeServicoService;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +21,13 @@ public class OrdensDeServicoController {
     private final OrdensDeServicoService ordensDeServicoService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity<OrdensDeServicoDTO> save(@RequestBody OrdensDeServicoDTO dto) throws ParseException {
+    public ResponseEntity<OrdemServicoResponse> save(@RequestBody OrdemServicoRequest request) throws ParseException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.save(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.save(request));
     }
 
-    @PostMapping(path = "/cliente/{idCliente}/diarista/{idDiarista}/os/{idOS}")
-    public ResponseEntity<OrdensDeServico> gerarOS(@PathVariable("idCliente") String idCliente, @PathVariable("idDiarista") String idDiarista, @PathVariable("idOS") String idOS) {
+    @PostMapping(path = "/gerar")
+    public ResponseEntity<OrdensDeServico> gerarOS(@RequestParam("idCliente") String idCliente, @RequestParam("idDiarista") String idDiarista, @RequestParam("idOS") String idOS) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, idOS));
     }

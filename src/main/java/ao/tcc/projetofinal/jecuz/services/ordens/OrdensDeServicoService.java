@@ -10,9 +10,12 @@ import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
 import ao.tcc.projetofinal.jecuz.repositories.OrdensDeServicoRepository;
 import ao.tcc.projetofinal.jecuz.utils.GerarNumeroOS;
+import ao.tcc.projetofinal.jecuz.utils.PageableCommons;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -20,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -49,10 +53,24 @@ public class OrdensDeServicoService {
         return mapper.map(os, OrdemServicoResponse.class);
     }
 
-    public List<OrdensDeServico> findOSAll(){
-        return ordensDeServicoRepository.findAll()
-                                        .stream()
-                                        .toList();
+    public PageableCommons<List<OrdemServicoResponse>> listOS(String search, Integer page, Integer size){
+
+        List<OrdemServicoResponse> responses = ordensDeServicoRepository.findAll()
+                                                                        .stream()
+                                                                        .map((os) -> mapper.map(os, OrdemServicoResponse.class))
+                                                                        .filter(response -> search == null || search.isEmpty() ||
+                                                                                                    response.getDiarista().getNome().contains(search.toLowerCase()))
+                                                                        .toList();
+
+        Pageable pageable = PageRequest.of(page, size);
+        int start = Math.min((int) pageable.getOffset(), responses.size());
+        int end   = Math.min((start + pageable.getPageSize()), responses.size());
+        double totalContentSlice = ((double) responses.size() /size);
+        double totalPages = page < totalContentSlice ? (totalContentSlice - page) : 0;
+
+        List<OrdemServicoResponse> pagedList = responses.subList(start, end);
+
+        return new PageableCommons<>(pagedList, page, pagedList.size(), (int) Math.floor(totalPages), responses.size());
     }
 
     public OrdensDeServico findOS(String value){

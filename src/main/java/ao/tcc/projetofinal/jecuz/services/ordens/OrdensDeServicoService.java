@@ -34,25 +34,6 @@ public class OrdensDeServicoService {
     private final DiaristaRepository diaristaRepository;
     private final ModelMapper mapper;
 
-    public OrdemServicoResponse save(OrdemServicoRequest request) throws ParseException {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date data = sdf.parse(request.getDataSolicitacao());
-
-        OrdensDeServico os = OrdensDeServico.builder()
-                                            .nomeCliente(request.getNomeCliente())
-                                            .numOrdemServico(GerarNumeroOS.gerar())
-                                            .dataSolicitacao(data.toString())
-                                            .descricaoTarefa(request.getDescricaoTarefa())
-                                            .valorTotal(request.getValorTotal())
-                                            .dataExecucao(data.toString())
-                                            .build();
-
-        ordensDeServicoRepository.save(os);
-
-        return mapper.map(os, OrdemServicoResponse.class);
-    }
-
     public PageableCommons<List<OrdemServicoResponse>> listOS(String search, Integer page, Integer size){
 
         List<OrdemServicoResponse> responses = ordensDeServicoRepository.findAll()
@@ -79,27 +60,36 @@ public class OrdensDeServicoService {
                                         .orElseThrow(() -> new RegraDeNegocioException("O.S não encontrado"));
     }
 
-    public OrdensDeServico gerarOrdem(String idCliente, String idDiarista, String idOS){
+    public OrdensDeServico gerarOrdem(String idCliente, String idDiarista, OrdemServicoRequest request) throws ParseException {
         Long indexCliente  = ValidationParameter.validate(idCliente);
         Long indexDiarista = ValidationParameter.validate(idDiarista);
-        Long indexOS       = ValidationParameter.validate(idOS);
 
         Cliente  cliente   = clienteRepository.findById(indexCliente).orElseThrow(() -> new RegraDeNegocioException("ID Cliente não encontrado"));
         Diarista diarista  = diaristaRepository.findById(indexDiarista).orElseThrow(() -> new RegraDeNegocioException("ID Diarista não encontrado"));
-        OrdensDeServico os = ordensDeServicoRepository.findById(indexOS).orElseThrow(() -> new RegraDeNegocioException("ID O.S não encontrado"));
 
         List<Diarista> diaristas = new ArrayList<>();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date solicitacao = sdf.parse(request.getDataSolicitacao());
+        Date execucao    = sdf.parse(request.getDataExecucao());
+
+        OrdensDeServico servico = OrdensDeServico.builder()
+                                                 .nomeCliente(cliente.getNome())
+                                                 .numOrdemServico(GerarNumeroOS.gerar())
+                                                 .dataSolicitacao(solicitacao.toString())
+                                                 .descricaoTarefa(request.getDescricaoTarefa())
+                                                 .dataExecucao(execucao.toString())
+                                                 .valorTotal(request.getValorTotal())
+                                                 .build();
         diaristas.add(diarista);
         cliente.setDiaristas(diaristas);
         diarista.setCliente(cliente);
-        os.setDiarista(diarista);
-        os.setNomeCliente(cliente.getNome());
+        servico.setDiarista(diarista);
 
         clienteRepository.save(cliente);
         diaristaRepository.save(diarista);
-        ordensDeServicoRepository.save(os);
+        ordensDeServicoRepository.save(servico);
 
-        return os;
+        return servico;
     }
 }

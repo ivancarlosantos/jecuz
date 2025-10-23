@@ -26,16 +26,10 @@ public class DiaristaController {
     private final DiaristaService diaristaService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity<DiaristaResponse> save(@RequestBody @Valid DiaristaRequest request) throws ParseException, MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<DiaristaResponse> save(@RequestBody @Valid DiaristaRequest request) throws ParseException {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(diaristaService.save(request));
     }
-
-    /*@GetMapping(path = "/list")
-    public ResponseEntity<List<Diarista>> findAll() {
-
-        return ResponseEntity.status(HttpStatus.OK).body(diaristaService.listAll());
-    }*/
 
     @GetMapping
     public ResponseEntity<DiaristaSOResponse> findByID(@RequestParam String id) {

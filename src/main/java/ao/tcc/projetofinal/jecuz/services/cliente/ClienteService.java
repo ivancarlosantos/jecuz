@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -39,7 +38,7 @@ public class ClienteService {
                                  .nome(request.getNome())
                                  .nascimento(nascimento.toString())
                                  .telefone(request.getTelefone())
-                                 .numeroBi(request.getNumeroBi())
+                                 .numeroBi(request.getNumeroBi().toUpperCase())
                                  .email(request.getEmail())
                                  .build();
 

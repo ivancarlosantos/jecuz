@@ -31,8 +31,6 @@ public class Diarista  implements Serializable{
 
     private String email;
 
-    private String verificationCode;
-
     private boolean enabled;
 
     @ManyToOne

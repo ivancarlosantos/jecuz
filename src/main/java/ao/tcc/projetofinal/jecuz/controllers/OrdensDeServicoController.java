@@ -20,16 +20,12 @@ public class OrdensDeServicoController {
 
     private final OrdensDeServicoService ordensDeServicoService;
 
-    @PostMapping(path = "/save")
-    public ResponseEntity<OrdemServicoResponse> save(@RequestBody OrdemServicoRequest request) throws ParseException {
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.save(request));
-    }
-
     @PostMapping(path = "/gerar")
-    public ResponseEntity<OrdensDeServico> gerarOS(@RequestParam("idCliente") String idCliente, @RequestParam("idDiarista") String idDiarista, @RequestParam("idOS") String idOS) {
+    public ResponseEntity<OrdensDeServico> gerarOS(@RequestParam("idCliente") String idCliente,
+                                                   @RequestParam("idDiarista") String idDiarista,
+                                                   @RequestBody OrdemServicoRequest request) throws ParseException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, idOS));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, request));
     }
 
     @GetMapping(path = "/list")

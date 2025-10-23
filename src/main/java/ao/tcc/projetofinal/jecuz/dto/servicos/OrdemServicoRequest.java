@@ -11,8 +11,6 @@ import lombok.*;
 @Builder
 public class OrdemServicoRequest {
 
-    private String nomeCliente;
-
     @NotEmpty(message = "campo obrigatório")
     @NotBlank
     private String dataSolicitacao; //padrão 01/01/2000

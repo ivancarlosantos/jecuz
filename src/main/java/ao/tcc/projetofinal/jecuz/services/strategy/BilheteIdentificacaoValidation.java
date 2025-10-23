@@ -21,7 +21,7 @@ public class BilheteIdentificacaoValidation implements IValidation {
     @Override
     public void execute(ClienteRequest request) {
         log.info("Verificando o bilhete de identificação (BI)");
-        if(!request.getNumeroBi().matches("^[0-9]{9}[A-Z]{2}[0-9]{3}$")){
+        if(!request.getNumeroBi().matches("^[0-9]{9}[A-Z]{2}[0-9]{3}$") && request.getNumeroBi().length() != 14){
             throw new VerifyFieldsException("O modelo de Bilhete de Identificação (BI) pode estar incorreto, por favor, verifique o campo");
         }
 

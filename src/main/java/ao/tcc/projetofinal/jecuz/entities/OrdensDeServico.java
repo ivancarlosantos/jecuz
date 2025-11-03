@@ -1,5 +1,6 @@
 package ao.tcc.projetofinal.jecuz.entities;
 
+import ao.tcc.projetofinal.jecuz.enums.TipoLimpeza;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +25,8 @@ public class OrdensDeServico implements Serializable {
 
     private String dataSolicitacao; //padrão 01/01/2000
 
-    private String descricaoTarefa;
+    @Enumerated(EnumType.STRING)
+    private TipoLimpeza tipoLimpeza;
 
     private Double valorTotal;
 

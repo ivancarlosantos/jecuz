@@ -12,15 +12,17 @@ import java.util.Date;
 @Builder
 @Getter
 @Setter
-public class ConnectionTest implements Serializable{
+public class ConnectionTest implements Serializable {
 
+    private String owner;
     private InetAddress address;
     private String dateCreateAt;
 
     public static ConnectionTest test() throws UnknownHostException {
 
         return ConnectionTest.builder()
-                             .address(InetAddress.getLocalHost())
+                             .owner(InetAddress.getLocalHost().getHostName())
+                             .address(InetAddress.getByName(InetAddress.getLocalHost().getHostAddress()))
                              .dateCreateAt(new Date().toString())
                              .build();
     }

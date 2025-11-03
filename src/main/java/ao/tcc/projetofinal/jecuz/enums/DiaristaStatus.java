@@ -1,7 +1,8 @@
 package ao.tcc.projetofinal.jecuz.enums;
 
-public enum ClienteStatus {
+public enum DiaristaStatus {
 
     ATIVO,
-    INATIVO
+    SUSPENSO,
+    PENDENTE
 }

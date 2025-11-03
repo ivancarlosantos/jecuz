@@ -3,6 +3,7 @@ package ao.tcc.projetofinal.jecuz.services.cliente;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteResponse;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
+import ao.tcc.projetofinal.jecuz.enums.ClienteStatus;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.services.istrategy.IValidation;
@@ -15,9 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,14 +34,17 @@ public class ClienteService {
 
         validations.forEach(validation -> validation.execute(request));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date nascimento = sdf.parse(request.getNascimento());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate nascimento = LocalDate.parse(request.getNascimento(), formatter);
+
         Cliente cliente = Cliente.builder()
                                  .nome(request.getNome())
-                                 .nascimento(nascimento.toString())
+                                 .nascimento(nascimento)
                                  .telefone(request.getTelefone())
-                                 .numeroBi(request.getNumeroBi().toUpperCase())
+                                 .numeroBi(request.getNumeroBi())
                                  .email(request.getEmail())
+                                 .dataRegistro(LocalDateTime.now())
+                                 .status(ClienteStatus.ATIVO)
                                  .build();
 
         Cliente saved = clienteRepository.save(cliente);
@@ -51,6 +56,7 @@ public class ClienteService {
         List<ClienteResponse> responses = clienteRepository.findAll()
                                                            .stream()
                                                            .sorted(Comparator.comparing(Cliente::getNome))
+                                                           .filter((cli) -> cli.getStatus() == ClienteStatus.ATIVO)
                                                            .map((cli) -> mapper.map(cli, ClienteResponse.class))
                                                            .filter(response -> search == null || search.isEmpty() ||
                                                                                   response.getNome().toLowerCase().contains(search.toLowerCase()))

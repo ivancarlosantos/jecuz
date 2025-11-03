@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
 import java.util.List;
@@ -39,11 +38,5 @@ public class ClienteController {
     public ResponseEntity<ClienteResponse> findByID(@RequestParam String id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findByID(id));
-    }
-
-    @DeleteMapping(path = "/delete")
-    public ResponseEntity<String> delete(@RequestParam Long id, @RequestBody ClienteResponse dto) {
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 }

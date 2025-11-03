@@ -36,7 +36,7 @@ public class DiaristaService {
                                     .nome(request.getNome())
                                     .nascimento(nascimento.toString())
                                     .telefone(request.getTelefone())
-                                    .numeroBi(request.getNumeroBi().toUpperCase())
+                                    .numeroBi(request.getNumeroBi())
                                     .email(request.getEmail())
                                     .enabled(false)
                                     .build();
@@ -51,21 +51,5 @@ public class DiaristaService {
         return diaristaRepository.findById(id)
                                  .map(diarista -> mapper.map(diarista, DiaristaSOResponse.class))
                                  .orElseThrow(() -> new RegraDeNegocioException("Diarista não encontrada"));
-    }
-
-    private DiaristaResponse findDiarista(DiaristaRequest request) {
-        Diarista diarista = diaristaRepository.findByDiarista(request.getEmail());
-        if (diarista != null) {
-            return mapper.map(diarista, DiaristaResponse.class);
-        }
-        return null;
-    }
-
-    private DiaristaResponse findNumeroBi(DiaristaRequest request) {
-        Diarista diarista = diaristaRepository.findByNumeroBi(request.getNumeroBi());
-        if (diarista != null) {
-            return mapper.map(diarista, DiaristaResponse.class);
-        }
-        return null;
     }
 }

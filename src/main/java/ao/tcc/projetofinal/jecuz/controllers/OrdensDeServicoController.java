@@ -3,6 +3,7 @@ package ao.tcc.projetofinal.jecuz.controllers;
 import ao.tcc.projetofinal.jecuz.dto.servicos.OrdemServicoRequest;
 import ao.tcc.projetofinal.jecuz.dto.servicos.OrdemServicoResponse;
 import ao.tcc.projetofinal.jecuz.entities.OrdensDeServico;
+import ao.tcc.projetofinal.jecuz.enums.TipoLimpeza;
 import ao.tcc.projetofinal.jecuz.services.ordens.OrdensDeServicoService;
 import ao.tcc.projetofinal.jecuz.utils.PageableCommons;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +24,10 @@ public class OrdensDeServicoController {
     @PostMapping(path = "/gerar")
     public ResponseEntity<OrdensDeServico> gerarOS(@RequestParam("idCliente") String idCliente,
                                                    @RequestParam("idDiarista") String idDiarista,
+                                                   @RequestParam("tipoLimpeza") TipoLimpeza tipoLimpeza,
                                                    @RequestBody OrdemServicoRequest request) throws ParseException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, request, tipoLimpeza));
     }
 
     @GetMapping(path = "/list")

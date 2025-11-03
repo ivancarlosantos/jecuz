@@ -93,7 +93,7 @@ jobs:
           webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
           color: "#48f442"
           username: ${{ github.actor }}
-          message: ":rocket: Algo de novo na branch Master :rocket:\nEnviado uma nova versão/release\nPara o projeto [jecuz] com status :rocket: ${{ job.status }} :rocket:\n[Ver Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
+          message: ":rocket: Algo de novo na branch Master :rocket:\nEnviado uma nova versão/release\nPara o projeto [jecuz] com status: ${{ job.status }}\n[Ver Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
 
       - name: Notify Discord Failure Deploy
         if: failure()

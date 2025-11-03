@@ -5,6 +5,7 @@ import ao.tcc.projetofinal.jecuz.dto.servicos.OrdemServicoResponse;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.entities.OrdensDeServico;
+import ao.tcc.projetofinal.jecuz.enums.TipoLimpeza;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
@@ -23,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -60,7 +60,7 @@ public class OrdensDeServicoService {
                                         .orElseThrow(() -> new RegraDeNegocioException("O.S não encontrado"));
     }
 
-    public OrdensDeServico gerarOrdem(String idCliente, String idDiarista, OrdemServicoRequest request) throws ParseException {
+    public OrdensDeServico gerarOrdem(String idCliente, String idDiarista, OrdemServicoRequest request, TipoLimpeza tipoLimpeza) throws ParseException {
         Long indexCliente  = ValidationParameter.validate(idCliente);
         Long indexDiarista = ValidationParameter.validate(idDiarista);
 
@@ -77,7 +77,7 @@ public class OrdensDeServicoService {
                                                  .nomeCliente(cliente.getNome())
                                                  .numOrdemServico(GerarNumeroOS.gerar())
                                                  .dataSolicitacao(solicitacao.toString())
-                                                 .descricaoTarefa(request.getDescricaoTarefa())
+                                                 .tipoLimpeza(tipoLimpeza)
                                                  .dataExecucao(execucao.toString())
                                                  .valorTotal(request.getValorTotal())
                                                  .build();

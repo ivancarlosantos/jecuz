@@ -3,20 +3,14 @@ package ao.tcc.projetofinal.jecuz.controllers;
 import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaRequest;
 import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaResponse;
 import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaSOResponse;
-import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.services.diarista.DiaristaService;
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController

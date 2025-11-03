@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -30,6 +30,16 @@ public class Diarista  implements Serializable{
     private String numeroBi;
 
     private String email;
+
+    private String endereco;
+
+    private String nivelExperiencia;
+
+    private Long avaliacaoMedia;
+
+    private LocalDateTime dataRegistro;
+
+    private String fotoPerfil;
 
     private boolean enabled;
 

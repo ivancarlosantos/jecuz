@@ -56,7 +56,7 @@ jobs:
           cache: 'maven'
 
       - name: Test Application App
-        run: mvn clean install -DskipTests
+        run: mvn verify
 
   deploy:
     needs: [ test ]

@@ -1,0 +1,15 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< ao.tcc.projeto.final:jecuz >---------------------
+[INFO] Building Jecuz Api stable
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- help:3.5.1:effective-pom (default-cli) @ jecuz ---
+[INFO] Effective-POM written to: C:\Users\ivans\Desktop\Jecuz_limpeza\build-reports\maven\effective-pom.xml
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.140 s
+[INFO] Finished at: 2026-01-22T16:53:40-03:00
+[INFO] ------------------------------------------------------------------------

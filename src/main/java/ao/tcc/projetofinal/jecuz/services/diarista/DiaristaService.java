@@ -6,7 +6,7 @@ import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaSOResponse;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
-import ao.tcc.projetofinal.jecuz.services.istrategy.IValidation;
+import ao.tcc.projetofinal.jecuz.services.interfaces.IValidation;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

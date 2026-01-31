@@ -28,3 +28,15 @@ curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/head
 sleep 3
 docker run --name='rabbitmq' --hostname rabbit-host --network='jecuz_app' -d -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management-alpine
 sleep 3
+
+echo 'Instalar Jenkins'
+curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
+sleep 3
+docker run --name='jenkins' --network='jecuz_app' -d -p 9091:8080 -p 50000:50000 jenkins/jenkins:lts
+sleep 3
+
+echo 'Instalar SonarQube'
+curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
+sleep 3
+docker run --name='sonarqube' --network='jecuz_app' --restart=always -d -p 9030:9000 sonarqube:community
+sleep 3

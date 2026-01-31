@@ -3,14 +3,12 @@ package ao.tcc.projetofinal.jecuz.test.integration;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.enums.ClienteStatus;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
-import io.restassured.RestAssured;
+import ao.tcc.projetofinal.jecuz.test.fixtures.TestContainersBaseClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -18,10 +16,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,37 +24,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class ClienteContainerTest {
-
-    @Container
-    static PostgreSQLContainer<?> container = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15"));
-
-    @LocalServerPort
-    Integer port;
+@DataJpaTest
+public class ClienteContainerTest extends TestContainersBaseClass {
 
     @Autowired
     ClienteRepository repository;
 
     private Cliente clienteBase;
 
-    @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
-        registry.add("spring.datasource.url", container::getJdbcUrl);
-        registry.add("spring.datasource.username", container::getUsername);
-        registry.add("spring.datasource.password", container::getPassword);
-
-        System.out.println("url: " + container.getJdbcUrl());
-        System.out.println("username: " + container.getUsername());
-        System.out.println("password: " + container.getPassword());
-        System.out.println("spring.datasource.driver-class-name: " + container.getJdbcDriverInstance());
-    }
-
     @BeforeEach
-    void setUp() throws ParseException {
+    void setUp() {
         repository.deleteAll();
 
         clienteBase = Cliente.builder()
@@ -71,16 +45,10 @@ public class ClienteContainerTest {
                              .status(ClienteStatus.ATIVO)
                              .build();
 
-        RestAssured.baseURI = "http://localhost:" + port;
-
         repository.deleteAll();
     }
 
-    @Test
-    void connectionEstablished() {
-        assertThat(container.isCreated()).isTrue();
-        assertThat(container.isRunning()).isTrue();
-    }
+
 
     @Test
     void deveSalvageRecuperateClient() {

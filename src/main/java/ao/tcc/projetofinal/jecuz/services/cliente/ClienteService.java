@@ -1,12 +1,13 @@
 package ao.tcc.projetofinal.jecuz.services.cliente;
 
+import ao.tcc.projetofinal.jecuz.dto.cliente.ClientePattern;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteResponse;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.enums.ClienteStatus;
 import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
-import ao.tcc.projetofinal.jecuz.services.istrategy.IValidation;
+import ao.tcc.projetofinal.jecuz.services.interfaces.IValidation;
 import ao.tcc.projetofinal.jecuz.utils.PageableCommons;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;

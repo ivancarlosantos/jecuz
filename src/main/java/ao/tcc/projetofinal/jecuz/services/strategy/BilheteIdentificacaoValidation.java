@@ -5,7 +5,7 @@ import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaRequest;
 import ao.tcc.projetofinal.jecuz.exceptions.VerifyFieldsException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
-import ao.tcc.projetofinal.jecuz.services.istrategy.IValidation;
+import ao.tcc.projetofinal.jecuz.services.interfaces.IValidation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

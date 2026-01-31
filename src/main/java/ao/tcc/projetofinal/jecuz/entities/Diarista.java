@@ -37,6 +37,8 @@ public class Diarista  implements Serializable{
 
     private Long avaliacaoMedia;
 
+    private Double taxaDiaria;
+
     private LocalDateTime dataRegistro;
 
     private String fotoPerfil;
@@ -51,4 +53,5 @@ public class Diarista  implements Serializable{
     @OneToMany(mappedBy = "diarista", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<OrdensDeServico> ordensDeServicos;
+
 }

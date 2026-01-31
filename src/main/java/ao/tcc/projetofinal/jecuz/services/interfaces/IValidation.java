@@ -1,4 +1,4 @@
-package ao.tcc.projetofinal.jecuz.services.istrategy;
+package ao.tcc.projetofinal.jecuz.services.interfaces;
 
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
 import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaRequest;

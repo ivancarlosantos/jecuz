@@ -1,0 +1,374 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< ao.tcc.projeto.final:jecuz >---------------------
+[INFO] Building Jecuz Api stable
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ jecuz ---
+[INFO] Deleting C:\Users\ivans\Desktop\Jecuz_limpeza\target
+[INFO] 
+[INFO] --- jacoco:0.8.10:prepare-agent (prepare-agent) @ jecuz ---
+[INFO] argLine set to -javaagent:C:\\Users\\ivans\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.10\\org.jacoco.agent-0.8.10-runtime.jar=destfile=C:\\Users\\ivans\\Desktop\\Jecuz_limpeza\\target\\jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ jecuz ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ jecuz ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 49 source files with javac [debug parameters release 17] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ jecuz ---
+[INFO] skip non existing resourceDirectory C:\Users\ivans\Desktop\Jecuz_limpeza\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ jecuz ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 11 source files with javac [debug parameters release 17] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.3:test (default-test) @ jecuz ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running ao.tcc.projetofinal.jecuz.JecuzAppApplicationDomainTests
+16:52:09.743 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+16:52:09.778 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+16:52:10.048 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 1.21.3
+16:52:11.774 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+16:52:13.089 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+16:52:13.094 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+16:52:13.151 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 28.5.1
+  API Version: 1.51
+  Operating System: Docker Desktop
+  Total Memory: 7785 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+16:52:13.447 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Creating container for image: testcontainers/ryuk:0.12.0
+16:52:13.639 [main] INFO org.testcontainers.utility.RegistryAuthLocator -- Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
+16:52:14.116 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 is starting: 9390335b8662bbe1d60d44d69f5236275008df26e0fa37517843432ba178f956
+16:52:14.992 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 started in PT1.5452541S
+16:52:15.025 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+16:52:15.026 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+16:52:15.029 [main] INFO org.testcontainers.DockerClientFactory -- ?? Docker server version should be at least 1.6.0
+16:52:15.031 [main] INFO tc.postgres:16-alpine -- Creating container for image: postgres:16-alpine
+16:52:15.222 [main] INFO tc.postgres:16-alpine -- Container postgres:16-alpine is starting: 4acf48e197a73fb86e87a9fae2935f07374e805077060d56f151b6037cb71743
+16:52:17.829 [main] INFO tc.postgres:16-alpine -- Container postgres:16-alpine started in PT2.7973885S
+16:52:17.831 [main] INFO tc.postgres:16-alpine -- Container is started (JDBC URL: jdbc:postgresql://localhost:50656/test?loggerLevel=OFF)
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+16:52:18.117 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [ao.tcc.projetofinal.jecuz.JecuzAppApplicationDomainTests]: JecuzAppApplicationDomainTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:52:18.451 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration ao.tcc.projetofinal.jecuz.JecuzAppApplication for test class ao.tcc.projetofinal.jecuz.JecuzAppApplicationDomainTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.5)
+
+2026-01-22T16:52:20.186-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.JecuzAppApplicationDomainTests   : url jdbc:postgresql://localhost:50656/test?loggerLevel=OFF
+2026-01-22T16:52:20.186-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.JecuzAppApplicationDomainTests   : username test
+2026-01-22T16:52:20.186-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.JecuzAppApplicationDomainTests   : password test
+2026-01-22T16:52:20.207-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.JecuzAppApplicationDomainTests   : spring.datasource.driver-class-name org.postgresql.Driver@2e7dd504
+2026-01-22T16:52:20.252-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.JecuzAppApplicationDomainTests   : Starting JecuzAppApplicationDomainTests using Java 17.0.15 with PID 30492 (started by ivans in C:\Users\ivans\Desktop\Jecuz_limpeza)
+2026-01-22T16:52:20.254-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.JecuzAppApplicationDomainTests   : No active profile set, falling back to 1 default profile: "default"
+2026-01-22T16:52:24.877-03:00  INFO 30492 --- [jecuz] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-22T16:52:25.195-03:00  INFO 30492 --- [jecuz] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 268 ms. Found 4 JPA repository interfaces.
+2026-01-22T16:52:27.505-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2026-01-22T16:52:27.550-03:00  INFO 30492 --- [jecuz] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-22T16:52:27.552-03:00  INFO 30492 --- [jecuz] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.44]
+2026-01-22T16:52:27.726-03:00  INFO 30492 --- [jecuz] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-22T16:52:27.726-03:00  INFO 30492 --- [jecuz] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6613 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-01-22T16:52:28.637-03:00  INFO 30492 --- [jecuz] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-22T16:52:28.896-03:00  INFO 30492 --- [jecuz] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.26.Final
+2026-01-22T16:52:29.034-03:00  INFO 30492 --- [jecuz] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-22T16:52:29.804-03:00  INFO 30492 --- [jecuz] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-22T16:52:29.929-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-22T16:52:30.406-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4e22e204
+2026-01-22T16:52:30.411-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-22T16:52:30.562-03:00  WARN 30492 --- [jecuz] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-22T16:52:30.671-03:00  INFO 30492 --- [jecuz] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.10
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-22T16:52:33.365-03:00  INFO 30492 --- [jecuz] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-22T16:52:33.530-03:00  INFO 30492 --- [jecuz] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-22T16:52:34.532-03:00  WARN 30492 --- [jecuz] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-22T16:52:37.595-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 13 endpoints beneath base path '/actuator'
+2026-01-22T16:52:38.032-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 50682 (http) with context path '/'
+2026-01-22T16:52:38.066-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.JecuzAppApplicationDomainTests   : Started JecuzAppApplicationDomainTests in 18.899 seconds (process running for 32.447)
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-01-22T16:52:41.811-03:00  INFO 30492 --- [jecuz] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-22T16:52:41.811-03:00  INFO 30492 --- [jecuz] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-22T16:52:41.815-03:00  INFO 30492 --- [jecuz] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 33.97 s -- in ao.tcc.projetofinal.jecuz.JecuzAppApplicationDomainTests
+[INFO] Running ao.tcc.projetofinal.jecuz.test.integration.ClienteContainerTest
+2026-01-22T16:52:43.165-03:00  INFO 30492 --- [jecuz] [           main] tc.postgres:15                           : Creating container for image: postgres:15
+2026-01-22T16:52:43.539-03:00  INFO 30492 --- [jecuz] [           main] tc.postgres:15                           : Container postgres:15 is starting: 5dde06ffece39742133799e1be1d7eafa560731709bbec5b6d02d2d0e91246b7
+2026-01-22T16:52:45.812-03:00  INFO 30492 --- [jecuz] [           main] tc.postgres:15                           : Container postgres:15 started in PT2.6472171S
+2026-01-22T16:52:45.814-03:00  INFO 30492 --- [jecuz] [           main] tc.postgres:15                           : Container is started (JDBC URL: jdbc:postgresql://localhost:50686/test?loggerLevel=OFF)
+2026-01-22T16:52:45.818-03:00  INFO 30492 --- [jecuz] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ao.tcc.projetofinal.jecuz.test.integration.ClienteContainerTest]: ClienteContainerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-22T16:52:45.854-03:00  INFO 30492 --- [jecuz] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ao.tcc.projetofinal.jecuz.JecuzAppApplication for test class ao.tcc.projetofinal.jecuz.test.integration.ClienteContainerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.5)
+
+url: jdbc:postgresql://localhost:50686/test?loggerLevel=OFF
+username: test
+password: test
+spring.datasource.driver-class-name: org.postgresql.Driver@5a987d76
+2026-01-22T16:52:45.909-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.i.ClienteContainerTest         : Starting ClienteContainerTest using Java 17.0.15 with PID 30492 (started by ivans in C:\Users\ivans\Desktop\Jecuz_limpeza)
+2026-01-22T16:52:45.909-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.i.ClienteContainerTest         : No active profile set, falling back to 1 default profile: "default"
+2026-01-22T16:52:46.414-03:00  INFO 30492 --- [jecuz] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-22T16:52:46.450-03:00  INFO 30492 --- [jecuz] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 4 JPA repository interfaces.
+2026-01-22T16:52:46.601-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2026-01-22T16:52:46.603-03:00  INFO 30492 --- [jecuz] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-22T16:52:46.603-03:00  INFO 30492 --- [jecuz] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.44]
+2026-01-22T16:52:46.677-03:00  INFO 30492 --- [jecuz] [           main] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-01-22T16:52:46.678-03:00  INFO 30492 --- [jecuz] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 759 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-01-22T16:52:46.822-03:00  INFO 30492 --- [jecuz] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-22T16:52:46.831-03:00  INFO 30492 --- [jecuz] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-22T16:52:46.855-03:00  INFO 30492 --- [jecuz] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-22T16:52:46.855-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-01-22T16:52:46.896-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@6916468
+2026-01-22T16:52:46.897-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-01-22T16:52:46.904-03:00  WARN 30492 --- [jecuz] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-22T16:52:46.914-03:00  INFO 30492 --- [jecuz] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 15.14
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-22T16:52:47.042-03:00  INFO 30492 --- [jecuz] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-22T16:52:47.114-03:00  INFO 30492 --- [jecuz] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-22T16:52:47.298-03:00  WARN 30492 --- [jecuz] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-22T16:52:47.633-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 13 endpoints beneath base path '/actuator'
+2026-01-22T16:52:47.684-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 50703 (http) with context path '/'
+2026-01-22T16:52:47.705-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.i.ClienteContainerTest         : Started ClienteContainerTest in 1.845 seconds (process running for 42.087)
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.771 s -- in ao.tcc.projetofinal.jecuz.test.integration.ClienteContainerTest
+[INFO] Running ao.tcc.projetofinal.jecuz.test.integration.ClienteIntegrationTest
+2026-01-22T16:52:48.956-03:00  INFO 30492 --- [jecuz] [           main] tc.postgres:16-alpine                    : Creating container for image: postgres:16-alpine
+2026-01-22T16:52:49.238-03:00  INFO 30492 --- [jecuz] [           main] tc.postgres:16-alpine                    : Container postgres:16-alpine is starting: 895bf7e7b99044ef2ce3525d3044124108ac88485153d3e69ba876d8489aecac
+2026-01-22T16:52:51.660-03:00  INFO 30492 --- [jecuz] [           main] tc.postgres:16-alpine                    : Container postgres:16-alpine started in PT2.7046378S
+2026-01-22T16:52:51.661-03:00  INFO 30492 --- [jecuz] [           main] tc.postgres:16-alpine                    : Container is started (JDBC URL: jdbc:postgresql://localhost:50708/test?loggerLevel=OFF)
+2026-01-22T16:52:51.664-03:00  INFO 30492 --- [jecuz] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ao.tcc.projetofinal.jecuz.test.integration.ClienteIntegrationTest]: ClienteIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-22T16:52:51.676-03:00  INFO 30492 --- [jecuz] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ao.tcc.projetofinal.jecuz.JecuzAppApplication for test class ao.tcc.projetofinal.jecuz.test.integration.ClienteIntegrationTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.5)
+
+url: jdbc:postgresql://localhost:50708/test?loggerLevel=OFF
+username: test
+password: test
+spring.datasource.driver-class-name: org.postgresql.Driver@5b91a7c1
+2026-01-22T16:52:51.714-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.i.ClienteIntegrationTest       : Starting ClienteIntegrationTest using Java 17.0.15 with PID 30492 (started by ivans in C:\Users\ivans\Desktop\Jecuz_limpeza)
+2026-01-22T16:52:51.714-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.i.ClienteIntegrationTest       : No active profile set, falling back to 1 default profile: "default"
+2026-01-22T16:52:52.191-03:00  INFO 30492 --- [jecuz] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-22T16:52:52.219-03:00  INFO 30492 --- [jecuz] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26 ms. Found 4 JPA repository interfaces.
+2026-01-22T16:52:53.073-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2026-01-22T16:52:53.076-03:00  INFO 30492 --- [jecuz] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-22T16:52:53.076-03:00  INFO 30492 --- [jecuz] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.44]
+2026-01-22T16:52:53.229-03:00  INFO 30492 --- [jecuz] [           main] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-01-22T16:52:53.230-03:00  INFO 30492 --- [jecuz] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1516 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-01-22T16:52:53.626-03:00  INFO 30492 --- [jecuz] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-22T16:52:53.646-03:00  INFO 30492 --- [jecuz] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-22T16:52:53.701-03:00  INFO 30492 --- [jecuz] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-22T16:52:53.703-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-01-22T16:52:53.809-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@8af720a
+2026-01-22T16:52:53.809-03:00  INFO 30492 --- [jecuz] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-01-22T16:52:53.832-03:00  WARN 30492 --- [jecuz] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-22T16:52:53.845-03:00  INFO 30492 --- [jecuz] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 16.10
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-22T16:52:54.320-03:00  INFO 30492 --- [jecuz] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-22T16:52:54.449-03:00  INFO 30492 --- [jecuz] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-22T16:52:54.857-03:00  WARN 30492 --- [jecuz] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-22T16:52:56.006-03:00  INFO 30492 --- [jecuz] [           main] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring TestDispatcherServlet ''
+2026-01-22T16:52:56.008-03:00  INFO 30492 --- [jecuz] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-22T16:52:56.017-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 13 endpoints beneath base path '/actuator'
+2026-01-22T16:52:56.047-03:00  INFO 30492 --- [jecuz] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 39 ms
+2026-01-22T16:52:56.201-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 50724 (http) with context path '/'
+2026-01-22T16:52:56.230-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.i.ClienteIntegrationTest       : Started ClienteIntegrationTest in 4.549 seconds (process running for 50.617)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/cliente/list
+       Parameters = {search=[], page=[0], size=[10]}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Accept:"application/json"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = ao.tcc.projetofinal.jecuz.controllers.ClienteController
+           Method = ao.tcc.projetofinal.jecuz.controllers.ClienteController#list(String, Integer, Integer)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"content":[{"nome":"Kaunda Daniel Masutic Da Gama","nascimento":"10/02/1990","telefone":"+244924192969","numeroBi":"001234567BA045","email":"kaunda.daniel@email.com"},{"nome":"Armando Pupilo do Kaunda Daniel","nascimento":"01/07/1995","telefone":"+244924192980","numeroBi":"001234765AR045","email":"armando.pupilo@email.com"}],"pageNumber":0,"numberContent":2,"totalPages":1,"totalElements":2}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /api/cliente/save
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Accept:"application/json", Content-Length:"187"]
+             Body = {
+  "nome" : "Kaunda Daniel Masutic Da Gama",
+  "nascimento" : "10/02/1990",
+  "telefone" : "+244924192969",
+  "numeroBi" : "001234567BA045",
+  "email" : "kaunda.daniel@email.com"
+}
+    Session Attrs = {}
+
+Handler:
+             Type = ao.tcc.projetofinal.jecuz.controllers.ClienteController
+           Method = ao.tcc.projetofinal.jecuz.controllers.ClienteController#save(ClienteRequest)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 201
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = {"nome":"Kaunda Daniel Masutic Da Gama","nascimento":"10/02/1990","telefone":"+244924192969","numeroBi":"001234567BA045","email":"kaunda.daniel@email.com"}
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.219 s -- in ao.tcc.projetofinal.jecuz.test.integration.ClienteIntegrationTest
+[INFO] Running ao.tcc.projetofinal.jecuz.test.integration.OrdensDeServicoControllerTest
+2026-01-22T16:52:58.210-03:00  INFO 30492 --- [jecuz] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ao.tcc.projetofinal.jecuz.test.integration.OrdensDeServicoControllerTest]: OrdensDeServicoControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-22T16:52:58.321-03:00  INFO 30492 --- [jecuz] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ao.tcc.projetofinal.jecuz.JecuzAppApplication for test class ao.tcc.projetofinal.jecuz.test.integration.OrdensDeServicoControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.5)
+
+2026-01-22T16:52:58.473-03:00  INFO 30492 --- [jecuz] [           main] .t.p.j.t.i.OrdensDeServicoControllerTest : Starting OrdensDeServicoControllerTest using Java 17.0.15 with PID 30492 (started by ivans in C:\Users\ivans\Desktop\Jecuz_limpeza)
+2026-01-22T16:52:58.476-03:00  INFO 30492 --- [jecuz] [           main] .t.p.j.t.i.OrdensDeServicoControllerTest : No active profile set, falling back to 1 default profile: "default"
+2026-01-22T16:52:59.218-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-22T16:52:59.218-03:00  INFO 30492 --- [jecuz] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-22T16:52:59.220-03:00  INFO 30492 --- [jecuz] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-22T16:52:59.230-03:00  INFO 30492 --- [jecuz] [           main] .t.p.j.t.i.OrdensDeServicoControllerTest : Started OrdensDeServicoControllerTest in 0.865 seconds (process running for 53.61)
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.327 s -- in ao.tcc.projetofinal.jecuz.test.integration.OrdensDeServicoControllerTest
+[INFO] Running ao.tcc.projetofinal.jecuz.test.integration.TestControllerIT
+2026-01-22T16:52:59.526-03:00  INFO 30492 --- [jecuz] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [ao.tcc.projetofinal.jecuz.test.integration.TestControllerIT]: TestControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-01-22T16:52:59.564-03:00  INFO 30492 --- [jecuz] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration ao.tcc.projetofinal.jecuz.JecuzAppApplication for test class ao.tcc.projetofinal.jecuz.test.integration.TestControllerIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.5)
+
+2026-01-22T16:52:59.648-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.integration.TestControllerIT   : Starting TestControllerIT using Java 17.0.15 with PID 30492 (started by ivans in C:\Users\ivans\Desktop\Jecuz_limpeza)
+2026-01-22T16:52:59.650-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.integration.TestControllerIT   : No active profile set, falling back to 1 default profile: "default"
+2026-01-22T16:53:00.177-03:00  INFO 30492 --- [jecuz] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-01-22T16:53:00.177-03:00  INFO 30492 --- [jecuz] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-01-22T16:53:00.177-03:00  INFO 30492 --- [jecuz] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-01-22T16:53:00.194-03:00  INFO 30492 --- [jecuz] [           main] a.t.p.j.t.integration.TestControllerIT   : Started TestControllerIT in 0.621 seconds (process running for 54.573)
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.717 s -- in ao.tcc.projetofinal.jecuz.test.integration.TestControllerIT
+[INFO] Running ao.tcc.projetofinal.jecuz.test.unit.ClienteServiceUnitTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.781 s -- in ao.tcc.projetofinal.jecuz.test.unit.ClienteServiceUnitTest
+[INFO] Running ao.tcc.projetofinal.jecuz.test.unit.DiaristaServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.299 s -- in ao.tcc.projetofinal.jecuz.test.unit.DiaristaServiceTest
+[INFO] Running ao.tcc.projetofinal.jecuz.test.unit.OrdensDeServicoServiceTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.238 s -- in ao.tcc.projetofinal.jecuz.test.unit.OrdensDeServicoServiceTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 34, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ jecuz ---
+[INFO] Building jar: C:\Users\ivans\Desktop\Jecuz_limpeza\target\jecuz.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.5:repackage (repackage) @ jecuz ---
+[INFO] Replacing main artifact C:\Users\ivans\Desktop\Jecuz_limpeza\target\jecuz.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\ivans\Desktop\Jecuz_limpeza\target\jecuz.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.10:report (report) @ jecuz ---
+[INFO] Loading execution data file C:\Users\ivans\Desktop\Jecuz_limpeza\target\jacoco.exec
+[INFO] Analyzed bundle 'Jecuz Api' with 31 classes
+[INFO] 
+[INFO] --- install:3.1.4:install (default-install) @ jecuz ---
+[INFO] Installing C:\Users\ivans\Desktop\Jecuz_limpeza\pom.xml to C:\Users\ivans\.m2\repository\ao\tcc\projeto\final\jecuz\stable\jecuz-stable.pom
+[INFO] Installing C:\Users\ivans\Desktop\Jecuz_limpeza\target\jecuz.jar to C:\Users\ivans\.m2\repository\ao\tcc\projeto\final\jecuz\stable\jecuz-stable.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:11 min
+[INFO] Finished at: 2026-01-22T16:53:06-03:00
+[INFO] ------------------------------------------------------------------------

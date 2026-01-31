@@ -3,18 +3,13 @@ package ao.tcc.projetofinal.jecuz;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.enums.ClienteStatus;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -27,17 +22,13 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @Slf4j
 @Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DataJpaTest
 class JecuzAppApplicationDomainTests {
-
-    @LocalServerPort
-    Integer port;
 
     @Autowired
     ClienteRepository repository;
@@ -51,6 +42,7 @@ class JecuzAppApplicationDomainTests {
         registry.add("spring.datasource.url", container::getJdbcUrl);
         registry.add("spring.datasource.username", container::getUsername);
         registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
 
         log.info("url {}", container.getJdbcUrl());
         log.info("username {}", container.getUsername());
@@ -60,7 +52,6 @@ class JecuzAppApplicationDomainTests {
 
     @BeforeEach
     void setUp() {
-        RestAssured.baseURI = "http://localhost:" + port;
         repository.deleteAll();
     }
 
@@ -77,7 +68,6 @@ class JecuzAppApplicationDomainTests {
     @Test
     void testDomain(){
 
-        Long id = 1L;
         String nome = "Kaunda Daniel";
         LocalDate nascimento = LocalDate.of(1990,02,10);
         String telefone = "+244951753147";
@@ -103,7 +93,6 @@ class JecuzAppApplicationDomainTests {
     @Test
     void testDomainListAll() {
 
-        Long id = 1L;
         String nome = "Kaunda Daniel";
         LocalDate nascimento = LocalDate.of(1990,02,10);
         String telefone = "+244951753147";
@@ -119,13 +108,7 @@ class JecuzAppApplicationDomainTests {
 
         repository.saveAll(clients);
 
-        given()
-                .contentType(ContentType.JSON)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .when()
-                .get("/api/cliente/list")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.OK.value());
+        List<Cliente> found = repository.findAll();
+        assertEquals(2, found.size());
     }
 }

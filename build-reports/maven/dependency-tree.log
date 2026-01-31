@@ -1,0 +1,15 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< ao.tcc.projeto.final:jecuz >---------------------
+[INFO] Building Jecuz Api stable
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- dependency:3.8.1:tree (default-cli) @ jecuz ---
+[INFO] Wrote dependency tree to: C:\Users\ivans\Desktop\Jecuz_limpeza\build-reports\maven\dependency-tree.txt
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.699 s
+[INFO] Finished at: 2026-01-22T16:53:30-03:00
+[INFO] ------------------------------------------------------------------------

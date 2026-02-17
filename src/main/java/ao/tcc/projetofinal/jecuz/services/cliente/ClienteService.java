@@ -1,6 +1,5 @@
 package ao.tcc.projetofinal.jecuz.services.cliente;
 
-import ao.tcc.projetofinal.jecuz.dto.cliente.ClientePattern;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteResponse;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
@@ -20,6 +19,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 
@@ -35,8 +35,20 @@ public class ClienteService {
 
         validations.forEach(validation -> validation.execute(request));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate nascimento = LocalDate.parse(request.getNascimento(), formatter);
+        // Suporta múltiplos formatos de data: dd/MM/yyyy e yyyy-MM-dd (ISO)
+        LocalDate nascimento;
+        String nascimentoRaw = request.getNascimento();
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            nascimento = LocalDate.parse(nascimentoRaw, formatter);
+        } catch (DateTimeParseException ex1) {
+            try {
+                nascimento = LocalDate.parse(nascimentoRaw, DateTimeFormatter.ISO_LOCAL_DATE);
+            } catch (DateTimeParseException ex2) {
+                // nenhum formato reconhecido: repassa a exceção para os testes verificarem comportamento
+                throw ex2;
+            }
+        }
 
         Cliente cliente = Cliente.builder()
                                  .nome(request.getNome())

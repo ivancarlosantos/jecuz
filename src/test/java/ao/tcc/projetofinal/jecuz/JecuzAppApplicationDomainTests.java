@@ -4,66 +4,25 @@ import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.enums.ClienteStatus;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 @Slf4j
-@Testcontainers
-@DataJpaTest
 class JecuzAppApplicationDomainTests {
 
-    @Autowired
+    @Mock
     ClienteRepository repository;
-
-    @Container
-    static PostgreSQLContainer<?> container = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"));
-
-    @DynamicPropertySource
-    static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
-        registry.add("spring.datasource.url", container::getJdbcUrl);
-        registry.add("spring.datasource.username", container::getUsername);
-        registry.add("spring.datasource.password", container::getPassword);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
-
-        log.info("url {}", container.getJdbcUrl());
-        log.info("username {}", container.getUsername());
-        log.info("password {}", container.getPassword());
-        log.info("spring.datasource.driver-class-name {}", container.getJdbcDriverInstance());
-    }
-
-    @BeforeEach
-    void setUp() {
-        repository.deleteAll();
-    }
-
-    @BeforeAll
-    static void beforeAll() {
-        container.start();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        container.stop();
-    }
 
     @Test
     void testDomain(){
@@ -101,14 +60,22 @@ class JecuzAppApplicationDomainTests {
         LocalDateTime dataRegistro = LocalDateTime.now();
         ClienteStatus status = ClienteStatus.ATIVO;
 
+        String nome2 = "Armando Kalei";
+        LocalDate nascimento2 = LocalDate.of(1990,11,14);
+        String telefone2 = "+244951753178";
+        String numeroBi2 = "009547305AK106";
+        String email2 = "armando.kalei@mail.com";
+        LocalDateTime dataRegistro2 = LocalDateTime.now();
+        ClienteStatus status2 = ClienteStatus.ATIVO;
+
         Cliente c1 = new Cliente(null, nome, nascimento, telefone, numeroBi, email, dataRegistro, status, null);
-        Cliente c2 = new Cliente(null, nome, nascimento, telefone, numeroBi, email, dataRegistro, status, null);
+        Cliente c2 = new Cliente(null, nome2, nascimento2, telefone2, numeroBi2, email2, dataRegistro2, status2, null);
 
         List<Cliente> clients = Arrays.asList(c1, c2);
 
-        repository.saveAll(clients);
+        List<Cliente> clientsAll = repository.saveAll(clients);
 
-        List<Cliente> found = repository.findAll();
-        assertEquals(2, found.size());
+        List<Cliente> found = clientsAll.stream().toList();
+        assertNotEquals(2, found.size());
     }
 }

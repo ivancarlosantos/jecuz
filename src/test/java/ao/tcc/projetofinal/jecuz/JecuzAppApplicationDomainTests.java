@@ -3,26 +3,68 @@ package ao.tcc.projetofinal.jecuz;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.enums.ClienteStatus;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
+import io.restassured.RestAssured;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
-@Slf4j
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Testcontainers
 class JecuzAppApplicationDomainTests {
 
-    @Mock
+    @Autowired
     ClienteRepository repository;
+
+    @LocalServerPort
+    Integer port;
+
+    @Container
+    static PostgreSQLContainer<?> container = new PostgreSQLContainer<>(DockerImageName.parse("postgres:15"));
+
+    @DynamicPropertySource
+    static void properties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
+        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add("spring.datasource.username", container::getUsername);
+        registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
+
+        System.out.println("url: " + container.getJdbcUrl());
+        System.out.println("username: " + container.getUsername());
+        System.out.println("password: " + container.getPassword());
+        System.out.println("spring.datasource.driver-class-name: " + container.getJdbcDriverInstance());
+    }
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.baseURI = "http://localhost:" + port;
+        repository.deleteAll();
+    }
+
+    @Test
+    void connectionEstablished() {
+        assertThat(container.isCreated()).isTrue();
+        assertThat(container.isRunning()).isTrue();
+    }
 
     @Test
     void testDomain(){
@@ -76,6 +118,6 @@ class JecuzAppApplicationDomainTests {
         List<Cliente> clientsAll = repository.saveAll(clients);
 
         List<Cliente> found = clientsAll.stream().toList();
-        assertNotEquals(2, found.size());
+        assertEquals(2, found.size());
     }
 }

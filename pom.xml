@@ -118,6 +118,12 @@
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
             <version>5.4.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

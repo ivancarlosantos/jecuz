@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,7 +23,7 @@ public class Diarista  implements Serializable{
 
     private String nome;
 
-    private Date nascimento;
+    private String nascimento;
 
     private String telefone;
 
@@ -31,7 +31,17 @@ public class Diarista  implements Serializable{
 
     private String email;
 
-    private String verificationCode;
+    private String endereco;
+
+    private String nivelExperiencia;
+
+    private Long avaliacaoMedia;
+
+    private Double taxaDiaria;
+
+    private LocalDateTime dataRegistro;
+
+    private String fotoPerfil;
 
     private boolean enabled;
 
@@ -43,4 +53,5 @@ public class Diarista  implements Serializable{
     @OneToMany(mappedBy = "diarista", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<OrdensDeServico> ordensDeServicos;
+
 }

@@ -1,9 +1,11 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
-import ao.tcc.projetofinal.jecuz.dto.OrdensDeServicoDTO;
+import ao.tcc.projetofinal.jecuz.dto.servicos.OrdemServicoRequest;
+import ao.tcc.projetofinal.jecuz.dto.servicos.OrdemServicoResponse;
 import ao.tcc.projetofinal.jecuz.entities.OrdensDeServico;
-import ao.tcc.projetofinal.jecuz.services.OrdensDeServicoService;
-import jakarta.validation.Valid;
+import ao.tcc.projetofinal.jecuz.enums.TipoLimpeza;
+import ao.tcc.projetofinal.jecuz.services.ordens.OrdensDeServicoService;
+import ao.tcc.projetofinal.jecuz.utils.PageableCommons;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,25 +21,25 @@ public class OrdensDeServicoController {
 
     private final OrdensDeServicoService ordensDeServicoService;
 
-    @PostMapping(path = "/save")
-    public ResponseEntity<OrdensDeServicoDTO> save(@RequestBody OrdensDeServicoDTO dto) throws ParseException {
+    @PostMapping(path = "/gerar")
+    public ResponseEntity<OrdensDeServico> gerarOS(@RequestParam("idCliente") String idCliente,
+                                                   @RequestParam("idDiarista") String idDiarista,
+                                                   @RequestParam("tipoLimpeza") TipoLimpeza tipoLimpeza,
+                                                   @RequestBody OrdemServicoRequest request) throws ParseException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.save(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, request, tipoLimpeza));
     }
 
-    @PostMapping(path = "/cliente/{idCliente}/diarista/{idDiarista}/os/{idOS}")
-    public ResponseEntity<OrdensDeServico> gerarOS(@PathVariable("idCliente") String idCliente, @PathVariable("idDiarista") String idDiarista, @PathVariable("idOS") String idOS) {
+    @GetMapping(path = "/list")
+    public ResponseEntity<PageableCommons<List<OrdemServicoResponse>>> findAll(@RequestParam(value = "search", required = false)  String search,
+                                                                               @RequestParam(value = "page", defaultValue = "0")  Integer page,
+                                                                               @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, idOS));
+        return ResponseEntity.status(HttpStatus.OK).body(ordensDeServicoService.listOS(search, page, size));
     }
 
-    @GetMapping(path = "/all")
-    public ResponseEntity<List<OrdensDeServico>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(ordensDeServicoService.findOSAll());
-    }
-
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<OrdensDeServico> findByID(@PathVariable String id) {
+    @GetMapping
+    public ResponseEntity<OrdensDeServico> findByID(@RequestParam String id) {
         return ResponseEntity.status(HttpStatus.OK).body(ordensDeServicoService.findOS(id));
     }
 }

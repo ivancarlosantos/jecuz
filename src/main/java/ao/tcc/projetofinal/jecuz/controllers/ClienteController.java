@@ -1,75 +1,42 @@
 package ao.tcc.projetofinal.jecuz.controllers;
 
-import ao.tcc.projetofinal.jecuz.dto.ClienteDTO;
-import ao.tcc.projetofinal.jecuz.entities.Cliente;
-import ao.tcc.projetofinal.jecuz.services.ClienteService;
+import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
+import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteResponse;
+import ao.tcc.projetofinal.jecuz.services.cliente.ClienteService;
+import ao.tcc.projetofinal.jecuz.utils.PageableCommons;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
-@RequestMapping(path = "/admin/usuarios")
+@RestController
+@RequestMapping(path = "/api/cliente")
 public class ClienteController {
 
     private final ClienteService clienteService;
 
-    @GetMapping("/cadastrar")
-    public ModelAndView cadastrar(){
-        var modelAndView= new ModelAndView("admin/usuario/cadastro_form");
-        modelAndView.addObject("cadastroFormulario", new ClienteDTO());
-
-        return modelAndView;
-    }
-
-    /*@PostMapping("/cadastrar")
-    public String cadastrar(@Valid @ModelAttribute("cadastroFormulario") ClienteDTO usuarioForm, BindingResult result, RedirectAttributes attrs) {
-        if (result.hasErrors()) {
-            return "admin/usuario/cadastro_form";
-        }
-        try {
-            clienteService.save(usuarioForm);
-
-            attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Usuário cadastrado com sucesso!"));
-
-        } catch (RegraDeNegocioException e) {
-            //result.addError(e.getFieldError());
-            return "admin/usuario/cadastro_form";
-        } catch (ParseException e) {
-            throw new RegraDeNegocioException(e.getMessage());
-        }
-        return "redirect:/admin/usuarios";
-    }*/
-
     @PostMapping(path = "/save")
-    public ResponseEntity<ClienteDTO> save(@RequestBody @Valid ClienteDTO dto) throws ParseException {
+    public ResponseEntity<ClienteResponse> save(@RequestBody @Valid ClienteRequest request) throws ParseException {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(request));
     }
 
-    @GetMapping
-    public ModelAndView buscarTodos(){
-        var modelAndView= new ModelAndView("admin/usuario/lista");
-        modelAndView.addObject("usuarios", clienteService.listAll());
-        return modelAndView;
+    @GetMapping(path = "/list")
+    public ResponseEntity<PageableCommons<List<ClienteResponse>>> list(@RequestParam(value = "search", required = false)  String search,
+                                                                       @RequestParam(value = "page", defaultValue = "0")  Integer page,
+                                                                       @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.listAll(search, page, size));
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<ClienteDTO> findByID(@PathVariable String id) {
+    @GetMapping(path = "/findByID")
+    public ResponseEntity<ClienteResponse> findByID(@RequestParam String id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findByID(id));
-    }
-
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id, @RequestBody ClienteDTO dto) {
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
     }
 }

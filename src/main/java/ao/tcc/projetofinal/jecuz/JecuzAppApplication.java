@@ -11,6 +11,6 @@ public class JecuzAppApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(JecuzAppApplication.class, args);
-        log.info("Application UP on status: " + HttpStatus.OK);
+        log.info("Application UP on status: {}", HttpStatus.OK);
     }
 }

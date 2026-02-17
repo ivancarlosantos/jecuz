@@ -1,6 +1,5 @@
 package ao.tcc.projetofinal.jecuz.entities;
 
-import ao.tcc.projetofinal.jecuz.enums.Icone;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +14,6 @@ public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     private String nome;
 
@@ -44,15 +42,12 @@ public class Servico {
 
     private Integer horasQuintal;
 
-
     private BigDecimal valorQuintal;
 
     private Integer horasOutros;
 
     private BigDecimal valorOutros;
 
-    @Enumerated(EnumType.STRING)
-    private Icone icone;
     @Column(nullable = false)
     private Integer posicao;
 }

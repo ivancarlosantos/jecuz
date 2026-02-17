@@ -52,7 +52,6 @@ class DiaristaRepositorySliceTest {
         repository.deleteAll();
         diaristaValida = TestDataBuilder.diaristaBuilder()
                 .withNome("Diarista Teste")
-                .withEspecialidade("Limpeza Residencial")
                 .buildEntity();
     }
 
@@ -62,7 +61,6 @@ class DiaristaRepositorySliceTest {
         // Given
         Diarista diarista = TestDataBuilder.diaristaBuilder()
                 .withNome("Ana Clara")
-                .withEspecialidade("Faxina Geral")
                 .withTaxaDiaria(75.0)
                 .buildEntity();
 

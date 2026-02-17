@@ -12,7 +12,7 @@ import org.testcontainers.utility.DockerImageName;
  * Classe base para testes que precisam de um container PostgreSQL compartilhado.
  * Usa container estático para melhor performance em testes E2E e Smoke.
  */
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 public class TestContainersBaseClass {
 

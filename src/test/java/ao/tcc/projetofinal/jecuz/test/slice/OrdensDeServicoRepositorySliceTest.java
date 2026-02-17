@@ -191,6 +191,6 @@ class OrdensDeServicoRepositorySliceTest {
         OrdensDeServico saved = repository.save(ordem);
 
         // Then
-        assertThat(saved.getDataExecucao()).isEqualTo(futuraData);
+        assertThat(saved.getDataExecucao()).isEqualTo(futuraData.toString());
     }
 }

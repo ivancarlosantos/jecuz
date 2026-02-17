@@ -3,7 +3,6 @@ package ao.tcc.projetofinal.jecuz.test.fixtures;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteRequest;
 import ao.tcc.projetofinal.jecuz.dto.cliente.ClienteResponse;
 import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaRequest;
-import ao.tcc.projetofinal.jecuz.dto.diarista.DiaristaResponse;
 import ao.tcc.projetofinal.jecuz.entities.Cliente;
 import ao.tcc.projetofinal.jecuz.entities.Diarista;
 import ao.tcc.projetofinal.jecuz.enums.ClienteStatus;
@@ -11,7 +10,6 @@ import com.github.javafaker.Faker;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Locale;
 
 /**
@@ -44,7 +42,7 @@ public class TestDataBuilder {
                     faker.random().nextInt(12) + 1,
                     faker.random().nextInt(28) + 1);
             this.telefone = faker.phoneNumber().cellPhone();
-            this.numeroBi = faker.bothify("????????????");
+            this.numeroBi = faker.bothify("0002505BA012");
             this.email = faker.internet().emailAddress();
             this.dataRegistro = LocalDateTime.now();
             this.status = ClienteStatus.ATIVO;
@@ -132,27 +130,19 @@ public class TestDataBuilder {
         private String telefone;
         private String numeroBi;
         private String email;
-        private String especialidade;
         private Double taxaDiaria;
         private LocalDateTime dataRegistro;
-        private Cliente cliente;
 
         public DiaristaBuilder() {
             this.nome = faker.name().fullName();
             this.nascimento = LocalDate.of(1990 + faker.random().nextInt(30),
-                    faker.random().nextInt(12) + 1,
-                    faker.random().nextInt(28) + 1);
+                                                 faker.random().nextInt(12) + 1,
+                                             faker.random().nextInt(28) + 1);
             this.telefone = faker.phoneNumber().cellPhone();
-            this.numeroBi = faker.bothify("????????????");
+            this.numeroBi = faker.bothify("0002505BA012");
             this.email = faker.internet().emailAddress();
-            this.especialidade = "Limpeza Residencial";
             this.taxaDiaria = 50.0 + faker.random().nextDouble() * 100;
             this.dataRegistro = LocalDateTime.now();
-        }
-
-        public DiaristaBuilder withId(Long id) {
-            this.id = id;
-            return this;
         }
 
         public DiaristaBuilder withNome(String nome) {
@@ -160,18 +150,8 @@ public class TestDataBuilder {
             return this;
         }
 
-        public DiaristaBuilder withEspecialidade(String especialidade) {
-            this.especialidade = especialidade;
-            return this;
-        }
-
         public DiaristaBuilder withTaxaDiaria(Double taxaDiaria) {
             this.taxaDiaria = taxaDiaria;
-            return this;
-        }
-
-        public DiaristaBuilder withCliente(Cliente cliente) {
-            this.cliente = cliente;
             return this;
         }
 
@@ -185,7 +165,6 @@ public class TestDataBuilder {
                     .email(email)
                     .taxaDiaria(taxaDiaria)
                     .dataRegistro(dataRegistro)
-                    .cliente(cliente)
                     .build();
         }
 

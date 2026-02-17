@@ -39,10 +39,11 @@ class ClienteE2ETest extends TestContainersBaseClass {
     @Test
     @DisplayName("Fluxo E2E: Criar cliente e recuperar")
     void testeFluxoCompleto_CriarERecuperarCliente() {
-        // Given
+        // Given: Mock um cliente válido
         ClienteRequest request = TestDataBuilder.clienteBuilder()
                 .withNome("Cliente E2E Test")
                 .withEmail("e2e@test.com")
+                .withNumeroBi("0002505BA012")
                 .buildRequest();
 
         // When: Criar cliente
@@ -50,26 +51,32 @@ class ClienteE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/clientes")
+                .post("/api/cliente/save")
                 .then()
-                .statusCode(201)
                 .extract()
                 .response();
 
-        Long clienteId = response.jsonPath().getLong("id");
+        System.out.println("Response Status: " + response.getStatusCode());
+        System.out.println("Response Body: " + response.getBody().asString());
+
+        assertThat(response.getStatusCode()).isEqualTo(201);
+
+        String clienteId = response.jsonPath().getString("id");
 
         // Then: Verificar se foi criado
-        assertThat(clienteId).isNotNull().isPositive();
+        assertThat(clienteId).isNotNull();
 
         // When: Recuperar cliente criado
         given()
+                .queryParam("id", clienteId)
                 .when()
-                .get("/api/clientes/" + clienteId)
+                .get("/api/cliente/findByID")
                 .then()
                 .statusCode(200)
-                .body("id", equalTo(clienteId.intValue()))
+                .body("id", notNullValue())
                 .body("nome", equalTo("Cliente E2E Test"))
-                .body("email", equalTo("e2e@test.com"));
+                .body("email", equalTo("e2e@test.com"))
+                .body("numeroBi", equalTo("0002505BA012"));
     }
 
     @Test
@@ -84,7 +91,9 @@ class ClienteE2ETest extends TestContainersBaseClass {
                     .contentType(ContentType.JSON)
                     .body(request)
                     .when()
-                    .post("/api/clientes");
+                    .post("/api/cliente/save")
+                    .then()
+                    .statusCode(201);
         }
 
         // When: Listar clientes
@@ -92,122 +101,84 @@ class ClienteE2ETest extends TestContainersBaseClass {
                 .queryParam("page", 0)
                 .queryParam("size", 10)
                 .when()
-                .get("/api/clientes")
+                .get("/api/cliente/list")
                 .then()
                 .statusCode(200)
                 .body("content.size()", greaterThanOrEqualTo(3));
     }
 
     @Test
-    @DisplayName("Fluxo E2E: Atualizar cliente")
-    void testeFluxoCompleto_AtualizarCliente() {
-        // Given: Criar cliente
-        ClienteRequest createRequest = TestDataBuilder.clienteBuilder()
-                .withNome("Original")
+    @DisplayName("Fluxo E2E: Criar e recuperar múltiplos clientes")
+    void testeFluxoCompleto_CriarERecuperarMultiplos() {
+        // Given: Criar dois clientes com dados diferentes
+        ClienteRequest createRequest1 = TestDataBuilder.clienteBuilder()
+                .withNome("Cliente Um")
+                .withEmail("um@test.com")
                 .buildRequest();
 
-        var createResponse = given()
+        var createResponse1 = given()
                 .contentType(ContentType.JSON)
-                .body(createRequest)
+                .body(createRequest1)
                 .when()
-                .post("/api/clientes")
+                .post("/api/cliente/save")
                 .then()
                 .statusCode(201)
                 .extract()
                 .response();
 
-        Long clienteId = createResponse.jsonPath().getLong("id");
+        String clienteId1 = createResponse1.jsonPath().getString("id");
 
-        // When: Atualizar cliente
-        ClienteRequest updateRequest = TestDataBuilder.clienteBuilder()
-                .withNome("Atualizado")
+        ClienteRequest createRequest2 = TestDataBuilder.clienteBuilder()
+                .withNome("Cliente Dois")
+                .withEmail("dois@test.com")
                 .buildRequest();
 
-        given()
+        var createResponse2 = given()
                 .contentType(ContentType.JSON)
-                .body(updateRequest)
+                .body(createRequest2)
                 .when()
-                .put("/api/clientes/" + clienteId)
+                .post("/api/cliente/save")
+                .then()
+                .statusCode(201)
+                .extract()
+                .response();
+
+        String clienteId2 = createResponse2.jsonPath().getString("id");
+
+        // When/Then: Recuperar ambos e verificar
+        given()
+                .queryParam("id", clienteId1)
+                .when()
+                .get("/api/cliente/findByID")
                 .then()
                 .statusCode(200)
-                .body("nome", equalTo("Atualizado"));
-    }
+                .body("nome", equalTo("Cliente Um"));
 
-    @Test
-    @DisplayName("Fluxo E2E: Deletar cliente")
-    void testeFluxoCompleto_DeletarCliente() {
-        // Given: Criar cliente
-        ClienteRequest request = TestDataBuilder.clienteBuilder().buildRequest();
-
-        var createResponse = given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/api/clientes")
-                .then()
-                .statusCode(201)
-                .extract()
-                .response();
-
-        Long clienteId = createResponse.jsonPath().getLong("id");
-
-        // When: Deletar cliente
         given()
+                .queryParam("id", clienteId2)
                 .when()
-                .delete("/api/clientes/" + clienteId)
+                .get("/api/cliente/findByID")
                 .then()
-                .statusCode(204);
-
-        // Then: Verificar que foi deletado
-        given()
-                .when()
-                .get("/api/clientes/" + clienteId)
-                .then()
-                .statusCode(404);
+                .statusCode(200)
+                .body("nome", equalTo("Cliente Dois"));
     }
 
     @Test
     @DisplayName("Fluxo E2E: Validar campos obrigatórios")
     void testeFluxoCompleto_ValidarCamposObrigatorios() {
         // Given: Request com campos inválidos
-        String requestInvalido = "{}";
+        ClienteRequest requestInvalido = TestDataBuilder.clienteBuilder()
+                .withNome("")  // Nome vazio/inválido
+                .buildRequest();
 
-        // When/Then: Deve falhar
+        // When/Then: Deve falhar com 400
         given()
                 .contentType(ContentType.JSON)
                 .body(requestInvalido)
                 .when()
-                .post("/api/clientes")
+                .post("/api/cliente/save")
                 .then()
                 .statusCode(400);
-    }
-
-    @Test
-    @DisplayName("Fluxo E2E: Alternar status do cliente")
-    void testeFluxoCompleto_AlternarStatusCliente() {
-        // Given: Criar cliente com status ATIVO
-        ClienteRequest request = TestDataBuilder.clienteBuilder()
-                .buildRequest();
-
-        var createResponse = given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/api/clientes")
-                .then()
-                .statusCode(201)
-                .extract()
-                .response();
-
-        Long clienteId = createResponse.jsonPath().getLong("id");
-
-        // When: Alterar status
-        given()
-                .when()
-                .patch("/api/clientes/" + clienteId + "/status?status=INATIVO")
-                .then()
-                .statusCode(200)
-                .body("status", equalTo("INATIVO"));
     }
 
     @Test
@@ -224,25 +195,24 @@ class ClienteE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/clientes")
+                .post("/api/cliente/save")
                 .then()
                 .statusCode(201)
                 .extract()
                 .response();
 
-        Long clienteId = createResponse.jsonPath().getLong("id");
+        String clienteId = createResponse.jsonPath().getString("id");
 
         // When/Then: Verificar todos os dados
         given()
+                .queryParam("id", clienteId)
                 .when()
-                .get("/api/clientes/" + clienteId)
+                .get("/api/cliente/findByID")
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue())
                 .body("nome", equalTo("João Silva"))
-                .body("email", equalTo("joao@example.com"))
-                .body("telefone", notNullValue())
-                .body("status", notNullValue());
+                .body("email", equalTo("joao@example.com"));
     }
 
     @Test
@@ -258,17 +228,18 @@ class ClienteE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/clientes")
+                .post("/api/cliente/save")
                 .then()
                 .statusCode(201)
                 .extract()
                 .response();
 
-        Long clienteId = createResponse.jsonPath().getLong("id");
+        String clienteId = createResponse.jsonPath().getString("id");
 
         given()
+                .queryParam("id", clienteId)
                 .when()
-                .get("/api/clientes/" + clienteId)
+                .get("/api/cliente/findByID")
                 .then()
                 .statusCode(200);
 

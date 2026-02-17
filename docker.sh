@@ -33,7 +33,7 @@ echo 'Instalar Jenkins'
 curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
 sleep 3
 docker run --name='jenkins' --network='jecuz_app' -d -p 9091:8080 -p 50000:50000 jenkins/jenkins:lts
-sleep 3
+sleep 3 # https://cursos.alura.com.br/forum/topico-instalando-maven-em-docker-container-229465
 
 echo 'Instalar SonarQube'
 curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash

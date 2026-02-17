@@ -57,8 +57,8 @@ public class ClienteService {
         List<ClienteResponse> responses = clienteRepository.findAll()
                                                            .stream()
                                                            .sorted(Comparator.comparing(Cliente::getNome))
-                                                           .filter((cli) -> cli.getStatus() == ClienteStatus.ATIVO)
-                                                           .map((cli) -> mapper.map(cli, ClienteResponse.class))
+                                                           .filter(cli -> cli.getStatus() == ClienteStatus.ATIVO)
+                                                           .map(cli -> mapper.map(cli, ClienteResponse.class))
                                                            .filter(response -> search == null || search.isEmpty() ||
                                                                                   response.getNome().toLowerCase().contains(search.toLowerCase()))
                                                            .toList();

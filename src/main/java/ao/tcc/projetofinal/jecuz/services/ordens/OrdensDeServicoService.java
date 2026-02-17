@@ -38,7 +38,7 @@ public class OrdensDeServicoService {
 
         List<OrdemServicoResponse> responses = ordensDeServicoRepository.findAll()
                                                                         .stream()
-                                                                        .map((os) -> mapper.map(os, OrdemServicoResponse.class))
+                                                                        .map(os -> mapper.map(os, OrdemServicoResponse.class))
                                                                         .filter(response -> search == null || search.isEmpty() ||
                                                                                                     response.getDiarista().getNome().contains(search.toLowerCase()))
                                                                         .toList();

@@ -28,6 +28,4 @@ public class OrdensDeServicoDTO {
     private Double valorTotal;
 
     private LocalDateTime dataExecucao;
-
-    //private DiaristaDTO diarista;
 }

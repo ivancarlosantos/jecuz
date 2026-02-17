@@ -40,7 +40,6 @@ class DiaristaE2ETest extends TestContainersBaseClass {
         // Given
         DiaristaRequest request = TestDataBuilder.diaristaBuilder()
                 .withNome("Diarista E2E")
-                .withEspecialidade("Limpeza Residencial")
                 .withTaxaDiaria(80.0)
                 .buildRequest();
 
@@ -49,7 +48,7 @@ class DiaristaE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/diaristas")
+                .post("/api/diarista/save")
                 .then()
                 .statusCode(201)
                 .extract()
@@ -60,7 +59,7 @@ class DiaristaE2ETest extends TestContainersBaseClass {
         // Then: Recuperar e validar
         given()
                 .when()
-                .get("/api/diaristas/" + diaristaId)
+                .get("/api/diarista/" + diaristaId)
                 .then()
                 .statusCode(200)
                 .body("id", equalTo(diaristaId.intValue()))
@@ -81,7 +80,7 @@ class DiaristaE2ETest extends TestContainersBaseClass {
                     .contentType(ContentType.JSON)
                     .body(request)
                     .when()
-                    .post("/api/diaristas");
+                    .post("/api/diarista/save");
         }
 
         // When/Then: Listar
@@ -107,7 +106,7 @@ class DiaristaE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(createRequest)
                 .when()
-                .post("/api/diaristas")
+                .post("/api/diarista/save")
                 .then()
                 .statusCode(201)
                 .extract()
@@ -124,7 +123,7 @@ class DiaristaE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(updateRequest)
                 .when()
-                .put("/api/diaristas/" + diaristaId)
+                .put("/api/diarista/" + diaristaId)
                 .then()
                 .statusCode(200)
                 .body("taxaDiaria", equalTo(100.0f));
@@ -140,7 +139,7 @@ class DiaristaE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/diaristas")
+                .post("/api/diarista/save")
                 .then()
                 .statusCode(201)
                 .extract()
@@ -174,7 +173,7 @@ class DiaristaE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(requestInvalido)
                 .when()
-                .post("/api/diaristas")
+                .post("/api/diarista")
                 .then()
                 .statusCode(400);
     }
@@ -185,7 +184,6 @@ class DiaristaE2ETest extends TestContainersBaseClass {
         // Given
         DiaristaRequest request = TestDataBuilder.diaristaBuilder()
                 .withNome("Maria Limpeza")
-                .withEspecialidade("Faxina Geral")
                 .withTaxaDiaria(85.0)
                 .buildRequest();
 
@@ -193,7 +191,7 @@ class DiaristaE2ETest extends TestContainersBaseClass {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/diaristas")
+                .post("/api/diarista/save")
                 .then()
                 .statusCode(201)
                 .extract()
@@ -204,12 +202,11 @@ class DiaristaE2ETest extends TestContainersBaseClass {
         // When/Then
         given()
                 .when()
-                .get("/api/diaristas/" + diaristaId)
+                .get("/api/diarista/" + diaristaId)
                 .then()
                 .statusCode(200)
                 .body("id", notNullValue())
                 .body("nome", equalTo("Maria Limpeza"))
-                .body("especialidade", equalTo("Faxina Geral"))
                 .body("taxaDiaria", equalTo(85.0f));
     }
 }

@@ -13,13 +13,14 @@ import java.util.Date;
 public class JecuzExceptionHandler {
 
     private static final Date timestamp = new Date();
+    private static final String TIMESTAMP = "timestamp";
 
     @ExceptionHandler(RegraDeNegocioException.class)
     ProblemDetail exceptionHandler(RegraDeNegocioException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
         problemDetail.setType(URI.create(""));
         problemDetail.setTitle(HttpStatus.NOT_FOUND.toString());
-        problemDetail.setProperty("timestamp", timestamp.toString());
+        problemDetail.setProperty(TIMESTAMP, timestamp.toString());
         return problemDetail;
     }
 
@@ -28,7 +29,7 @@ public class JecuzExceptionHandler {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getLocalizedMessage());
         problemDetail.setType(URI.create(""));
         problemDetail.setTitle(HttpStatus.CONFLICT.toString());
-        problemDetail.setProperty("timestamp", timestamp.toString());
+        problemDetail.setProperty(TIMESTAMP, timestamp.toString());
         return problemDetail;
     }
 
@@ -37,7 +38,7 @@ public class JecuzExceptionHandler {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
         problemDetail.setType(URI.create(""));
         problemDetail.setTitle(HttpStatus.BAD_REQUEST.toString());
-        problemDetail.setProperty("timestamp", timestamp.toString());
+        problemDetail.setProperty(TIMESTAMP, timestamp.toString());
         return problemDetail;
     }
 
@@ -46,7 +47,7 @@ public class JecuzExceptionHandler {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
         problemDetail.setType(URI.create(""));
         problemDetail.setTitle(HttpStatus.BAD_REQUEST.toString());
-        problemDetail.setProperty("timestamp", timestamp.toString());
+        problemDetail.setProperty(TIMESTAMP, timestamp.toString());
         return problemDetail;
     }
 
@@ -55,7 +56,7 @@ public class JecuzExceptionHandler {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
         problemDetail.setType(URI.create(""));
         problemDetail.setTitle(HttpStatus.BAD_REQUEST.toString());
-        problemDetail.setProperty("timestamp", timestamp.toString());
+        problemDetail.setProperty(TIMESTAMP, timestamp.toString());
         return problemDetail;
     }
 
@@ -64,7 +65,7 @@ public class JecuzExceptionHandler {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage());
         problemDetail.setType(URI.create(""));
         problemDetail.setTitle(HttpStatus.BAD_REQUEST.toString());
-        problemDetail.setProperty("timestamp", timestamp.toString());
+        problemDetail.setProperty(TIMESTAMP, timestamp.toString());
         return problemDetail;
     }
 }

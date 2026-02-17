@@ -5,4 +5,5 @@ public enum TipoLimpeza {
     RESIDENCIAL,
     INDUSTRIAL,
     ESCRITORIO,
+    NORMAL
 }

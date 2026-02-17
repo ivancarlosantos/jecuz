@@ -6,6 +6,12 @@ ADD /pom.xml /app
 
 RUN mvn -f /app/pom.xml clean package -Dmaven.test.skip
 
+FROM builder AS unit_tests
+
+WORKDIR /app
+
+RUN mvn test
+
 FROM alpine:3.21.3
 
 RUN apk update

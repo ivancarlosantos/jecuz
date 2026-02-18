@@ -32,8 +32,14 @@ sleep 3
 echo 'Instalar Jenkins'
 curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
 sleep 3
-docker run --name='jenkins' --network='jecuz_app' -d -p 9091:8080 -p 50000:50000 jenkins/jenkins:lts
-sleep 3 # https://cursos.alura.com.br/forum/topico-instalando-maven-em-docker-container-229465
+docker run --name='jenkins' --network='jecuz_app' -d -p 9091:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:lts
+sleep 3
+## https://cursos.alura.com.br/forum/topico-instalando-maven-em-docker-container-229465
+## install docker-in-docker curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/docker.sh | bash
+## install maven plugins (maven integration/pipeline maven integration/pipeline utility steps)
+## install openJDK17 (eclipse terumim/openjdk-native-plugin) q
+## install docker plugin (docker/docker-pipeline/docker-build-step/cloudbees-docker-build-and-publish)
+## install blue ocean plugin (blue ocean/dashboard for blue ocean/pipeline implementation for blue ocean/git pipeline for blue ocean/github pipeline for blue ocean)
 
 echo 'Instalar SonarQube'
 curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash

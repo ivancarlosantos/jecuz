@@ -20,7 +20,13 @@ public class DiaristaController {
     private final DiaristaService diaristaService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity<DiaristaResponse> save(@RequestBody @Valid DiaristaRequest request) throws ParseException {
+    public ResponseEntity<DiaristaResponse> save(@RequestParam("nome")       String nome,
+                                                 @RequestParam("nascimento") String nascimento,
+                                                 @RequestParam("telefone")   String telefone,
+                                                 @RequestParam("numeroBi")   String numeroBi,
+                                                 @RequestParam("email")      String email) throws ParseException {
+
+        DiaristaRequest request = new DiaristaRequest(nome, nascimento, telefone, numeroBi, email);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(diaristaService.save(request));
     }

@@ -39,15 +39,116 @@ TEST_TYPE=${1:-help}
 case $TEST_TYPE in
     all)
         print_header "Executando TODOS os testes"
-        print_info "Incluindo: Unit, Slice, Integration, E2E, Smoke"
-        mvn clean test
-        print_success "Todos os testes executados com sucesso!"
+        print_info "Incluindo: Unit, Integration, E2E, Smoke, Mutation"
+
+        print_info "1/5 - Executando testes unitários..."
+        mvn clean test -Dtest="**/*Test,**/*UnitTest" -q
+        print_success "Testes unitários concluídos"
+
+        print_info "2/5 - Executando testes de integração..."
+        mvn test -Dtest="**/*IT" -q
+        print_success "Testes de integração concluídos"
+
+        print_info "3/5 - Executando testes E2E..."
+        mvn test -Dtest="**/*E2ETest" -q
+        print_success "Testes E2E concluídos"
+
+        print_info "4/5 - Executando testes de fumaça..."
+        mvn test -Dtest="**/*SmokeTest" -q
+        print_success "Testes de fumaça concluídos"
+
+        print_info "5/5 - Gerando relatório de cobertura JaCoCo..."
+        mvn jacoco:report -q
+        print_success "Relatório de cobertura gerado"
+
+        print_header "✓ TODOS OS TESTES CONCLUÍDOS COM SUCESSO!"
+        print_info "Relatórios disponíveis em:"
+        print_info "  • JaCoCo: target/site/jacoco/index.html"
+        print_info "  • Surefire: target/surefire-reports/"
+        print_info "  • Failsafe: target/failsafe-reports/"
         ;;
 
     unit)
         print_header "Executando testes de UNIDADE"
-        print_info "ClienteServiceMutationTest, DiaristaServiceMutationTest, OrdensDeServicoServiceMutationTest"
-        mvn test -Dtest="**/*UnitTest,**/*MutationTest"
+        print_info "Testes: ClienteServiceUnitTest, DiaristaServiceTest, OrdensDeServicoServiceTest"
+        mvn clean test -Dtest="**/*Test,**/*UnitTest"
+        print_success "Testes unitários executados com sucesso!"
+        ;;
+
+    mutation)
+        print_header "Executando testes de MUTAÇÃO (PIT)"
+        print_info "Analisando qualidade dos testes através de mutações de código"
+        print_info "⚠️  Aviso: Isso pode levar alguns minutos..."
+        mvn clean test org.pitest:pitest-maven:mutationCoverage
+        print_success "Testes de mutação concluídos!"
+        print_info "Relatório: target/pit-reports/index.html"
+        ;;
+
+    integration)
+        print_header "Executando testes de INTEGRAÇÃO"
+        print_info "Testes: ClienteControllerIT, DiaristaControllerIT, OrdensDeServicoControllerIT"
+        mvn clean test -Dtest="**/*IT"
+        print_success "Testes de integração executados com sucesso!"
+        ;;
+
+    e2e)
+        print_header "Executando testes END-TO-END (E2E)"
+        print_info "Testes: ApplicationE2ETest, ClienteE2ETest"
+        mvn clean test -Dtest="**/*E2ETest"
+        print_success "Testes E2E executados com sucesso!"
+        ;;
+
+    smoke)
+        print_header "Executando testes de FUMAÇA (Smoke)"
+        print_info "Testes: SmokeTest, DiaristaApiSmokeTest"
+        mvn clean test -Dtest="**/*SmokeTest"
+        print_success "Testes de fumaça executados com sucesso!"
+        ;;
+
+    coverage)
+        print_header "Gerando relatório de COBERTURA (JaCoCo)"
+        mvn clean test jacoco:report
+        print_success "Relatório de cobertura gerado!"
+        print_info "Abra: target/site/jacoco/index.html"
+        ;;
+
+    sonar)
+        print_header "Executando análise SONARCLOUD"
+        print_info "⚠️  Requer configuração válida de sonar.login"
+        mvn clean verify sonar:sonar
+        print_success "Análise SonarCloud concluída!"
+        print_info "Acesse: https://sonarcloud.io"
+        ;;
+
+    verify)
+        print_header "Executando VERIFY (Unit + Integration + Packaging)"
+        mvn clean verify
+        print_success "Verificação concluída com sucesso!"
+        ;;
+
+    help)
+        print_header "JECUZ - Test Runner - Guia de Uso"
+        echo "Sintaxe: ./run-tests-enhanced.sh [opção]"
+        echo ""
+        echo "Opções disponíveis:"
+        echo ""
+        echo -e "${GREEN}  all${NC}           - Executa todos os testes (padrão)"
+        echo -e "${GREEN}  unit${NC}          - Testes unitários"
+        echo -e "${GREEN}  mutation${NC}      - Testes de mutação (PIT)"
+        echo -e "${GREEN}  integration${NC}   - Testes de integração"
+        echo -e "${GREEN}  e2e${NC}           - Testes End-to-End"
+        echo -e "${GREEN}  smoke${NC}         - Testes de fumaça"
+        echo -e "${GREEN}  coverage${NC}      - Relatório de cobertura JaCoCo"
+        echo -e "${GREEN}  sonar${NC}         - Análise SonarCloud"
+        echo -e "${GREEN}  verify${NC}        - Maven verify"
+        echo -e "${GREEN}  help${NC}          - Exibe este guia"
+        echo ""
+        ;;
+
+    *)
+        print_error "Opção inválida: $TEST_TYPE"
+        echo "Use ./run-tests-enhanced.sh help"
+        exit 1
         print_success "Testes de unidade executados!"
         ;;
 

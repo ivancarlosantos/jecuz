@@ -65,7 +65,7 @@ public class OrdensDeServicoControllerIT {
         when(ordensDeServicoService.gerarOrdem(eq(cliente.getId().toString()), eq(diarista.getId().toString()), any(OrdemServicoRequest.class), eq(TipoLimpeza.RESIDENCIAL)))
                 .thenReturn(os);
 
-        mockMvc.perform(post("/api/ordem/servico/gerar?idCliente=1&idDiarista=2&tipoLimpeza=RESIDENCIAL")
+        mockMvc.perform(post("/api/ordem/servico/gerar?idCliente=1&idDiarista=1&tipoLimpeza=RESIDENCIAL&dataSolicitacao=15/02/2026&descricaoTarefa=limpeza comodos&valor=200.0&dataExecucao=19/02/2026")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isCreated());

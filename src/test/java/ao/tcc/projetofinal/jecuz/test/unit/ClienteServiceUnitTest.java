@@ -63,7 +63,14 @@ ClienteServiceUnitTest {
                 .status(ClienteStatus.ATIVO)
                 .build();
 
-        ClienteResponse expectedResponse = new ClienteResponse(saved.getNome(), "10/02/1990", saved.getTelefone(), saved.getNumeroBi(), saved.getEmail());
+        ClienteResponse expectedResponse = ClienteResponse.builder()
+                .id(saved.getId())
+                .nome(saved.getNome())
+                .nascimento("10/02/1990")
+                .telefone(saved.getTelefone())
+                .numeroBi(saved.getNumeroBi())
+                .email(saved.getEmail())
+                .build();
 
         when(clienteRepository.save(any(Cliente.class))).thenReturn(saved);
         when(mapper.map(saved, ClienteResponse.class)).thenReturn(expectedResponse);
@@ -92,8 +99,22 @@ ClienteServiceUnitTest {
 
         when(clienteRepository.findAll()).thenReturn(List.of(c1, c2, inactive));
 
-        ClienteResponse r1 = new ClienteResponse(c1.getNome(), "01/01/1990", c1.getTelefone(), c1.getNumeroBi(), c1.getEmail());
-        ClienteResponse r2 = new ClienteResponse(c2.getNome(), "02/02/1992", c2.getTelefone(), c2.getNumeroBi(), c2.getEmail());
+        ClienteResponse r1 = ClienteResponse.builder()
+                .id(c1.getId())
+                .nome(c1.getNome())
+                .nascimento("01/01/1990")
+                .telefone(c1.getTelefone())
+                .numeroBi(c1.getNumeroBi())
+                .email(c1.getEmail())
+                .build();
+        ClienteResponse r2 = ClienteResponse.builder()
+                .id(c2.getId())
+                .nome(c2.getNome())
+                .nascimento("02/02/1992")
+                .telefone(c2.getTelefone())
+                .numeroBi(c2.getNumeroBi())
+                .email(c2.getEmail())
+                .build();
 
         when(mapper.map(c1, ClienteResponse.class)).thenReturn(r1);
         when(mapper.map(c2, ClienteResponse.class)).thenReturn(r2);
@@ -113,7 +134,14 @@ ClienteServiceUnitTest {
     void findByID_shouldReturnWhenExists() {
         Cliente c = Cliente.builder().id(5L).nome("Carlos").nascimento(LocalDate.of(1985,5,5)).telefone("t").numeroBi("b").email("e@e.com").status(ClienteStatus.ATIVO).build();
         when(clienteRepository.findById(5L)).thenReturn(Optional.of(c));
-        ClienteResponse resp = new ClienteResponse(c.getNome(), "05/05/1985", c.getTelefone(), c.getNumeroBi(), c.getEmail());
+        ClienteResponse resp = ClienteResponse.builder()
+                .id(c.getId())
+                .nome(c.getNome())
+                .nascimento("05/05/1985")
+                .telefone(c.getTelefone())
+                .numeroBi(c.getNumeroBi())
+                .email(c.getEmail())
+                .build();
         when(mapper.map(c, ClienteResponse.class)).thenReturn(resp);
 
         ClienteResponse result = clienteService.findByID("5");

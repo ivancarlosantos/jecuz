@@ -25,7 +25,12 @@ public class OrdensDeServicoController {
     public ResponseEntity<OrdensDeServico> gerarOS(@RequestParam("idCliente") String idCliente,
                                                    @RequestParam("idDiarista") String idDiarista,
                                                    @RequestParam("tipoLimpeza") TipoLimpeza tipoLimpeza,
-                                                   @RequestBody OrdemServicoRequest request) throws ParseException {
+                                                   @RequestParam("dataSolicitacao") String dataSolicitacao,
+                                                   @RequestParam("descricaoTarefa") String descricaoTarefa,
+                                                   @RequestParam("valor") Double valor,
+                                                   @RequestParam("dataExecucao") String dataExecucao) throws ParseException {
+
+        OrdemServicoRequest request = new OrdemServicoRequest(dataSolicitacao, descricaoTarefa, valor, dataExecucao);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ordensDeServicoService.gerarOrdem(idCliente, idDiarista, request, tipoLimpeza));
     }

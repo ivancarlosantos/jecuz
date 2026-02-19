@@ -21,7 +21,13 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity<ClienteResponse> save(@RequestBody @Valid ClienteRequest request) throws ParseException {
+    public ResponseEntity<ClienteResponse> save(@RequestParam("nome")       String nome,
+                                                @RequestParam("nascimento") String nascimento,
+                                                @RequestParam("telefone")   String telefone,
+                                                @RequestParam("numeroBi")   String numeroBi,
+                                                @RequestParam("email")      String email) throws ParseException {
+
+        ClienteRequest request = new ClienteRequest(nome, nascimento, telefone, numeroBi, email);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(request));
     }
@@ -35,7 +41,7 @@ public class ClienteController {
     }
 
     @GetMapping(path = "/findByID")
-    public ResponseEntity<ClienteResponse> findByID(@RequestParam String id) {
+    public ResponseEntity<ClienteResponse> findByID(@RequestParam("findByID") String id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.findByID(id));
     }

@@ -20,7 +20,6 @@
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <sonar.projectKey>jecuz</sonar.projectKey>
         <sonar.organizations>icarlos</sonar.organizations>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.login>ea5cf4a9ace7d631b7150931502915daf8f8055c</sonar.login>

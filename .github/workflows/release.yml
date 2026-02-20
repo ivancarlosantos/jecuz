@@ -1,6 +1,10 @@
 name: Deploy via Workflow Dispatch
 
 on:
+  pull_request:
+    branches:
+      - release
+
   workflow_dispatch:
     inputs:
       target_branch:
@@ -12,6 +16,7 @@ on:
           - master
           - release
           - feature
+          - ivan
 
       version:
         description: "Versão da aplicação (ex: 1.2.3)"
@@ -38,6 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version_hash: ${{ steps.get_hash.outputs.version_hash }}
+      name: setup-environment
+      run: echo version hash ${{ steps.get_hash.outputs.version_hash }}
 
     steps:
       - name: Checkout target branch
@@ -91,7 +98,7 @@ jobs:
     name: Parallel Tests
     runs-on: ubuntu-latest
     needs: validate-environment
-    if: github.event.inputs.target_branch == 'master'
+    if: github.event.inputs.target_branch == 'release' || github.event.inputs.target_branch == 'master'
 
     strategy:
       matrix:

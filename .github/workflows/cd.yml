@@ -6,13 +6,13 @@ on:
 
 jobs:
   release-os:
-    needs: [ build ]
     runs-on: ubuntu-24.04
     steps:
       - name: Verify Release O.S
         run: curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/release.sh | sh
 
   build:
+    needs: [ release-os ]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4.2.2

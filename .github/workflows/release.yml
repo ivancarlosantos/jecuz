@@ -1,6 +1,9 @@
 name: Deploy via Workflow Dispatch
 
 on:
+  pull_request:
+    branches:
+      - release
   workflow_dispatch:
     inputs:
       target_branch:

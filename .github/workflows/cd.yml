@@ -2,13 +2,10 @@ name: Continuous Delivery [CD]
 
 on:
   push:
-    branches: [ release ]
+    branches: [ ivan ]
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ ubuntu-22.04, ubuntu-24.04 ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Set up JDK 17
@@ -98,15 +95,3 @@ jobs:
 
       - name: Verify Release O.S
         run: curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/release.sh | sh
-
-      - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/jecuz .
-
-      - name: Tag Docker Image
-        run: docker tag ${{ secrets.DOCKER_USERNAME }}/jecuz ${{ secrets.DOCKER_USERNAME }}/jecuz:release
-
-      - name: Send Docker Image to Registry Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/jecuz:release

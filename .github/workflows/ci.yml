@@ -84,23 +84,3 @@ jobs:
 
       - name: Publish Docker Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/jecuz
-
-      - name: Notify Discord Success Deploy
-        if: success()
-        uses: appleboy/discord-action@master
-        with:
-          webhook_id: ${{ secrets.WEBHOOK_ID }}
-          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          color: "#48f442"
-          username: ${{ github.actor }}
-          message: ":rocket: Algo de novo na branch Master :rocket:\nEnviado uma nova versão/release\nPara o projeto [jecuz] com status: ${{ job.status }}\n[Ver Commit](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})"
-
-      - name: Notify Discord Failure Deploy
-        if: failure()
-        uses: appleboy/discord-action@master
-        with:
-          webhook_id: ${{ secrets.WEBHOOK_ID }}
-          webhook_token: ${{ secrets.WEBHOOK_TOKEN }}
-          color: "#b81d1d"
-          username: ${{ github.actor }}
-          message: ":triumph: Algo deu errado meu caro :triumph:\nVerifique o que houve e envie novamente"

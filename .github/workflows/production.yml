@@ -9,7 +9,7 @@ on:
       target_branch:
         description: "Branch para executar o workflow"
         required: true
-        default: "master"
+        default: 'release'
         type: choice
         options:
           - master
@@ -19,13 +19,8 @@ on:
       version:
         description: "Versão da aplicação para deploy"
         required: true
-        default: stable
-        type: choice
-        options:
-          - stable
-          - latest
-          - custom
-          - release
+        default: 'stable'
+        type: string
 
       environment_name:
         description: "Nome do ambiente para deploy"

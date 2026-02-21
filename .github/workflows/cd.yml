@@ -3,8 +3,16 @@ name: Continuous Delivery [CD]
 on:
   push:
     branches: [ ivan ]
+
 jobs:
+  release-os:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Verify Release O.S
+        run: curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/release.sh | sh
+
   build:
+    needs: [ release-os ]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4.2.2
@@ -92,6 +100,3 @@ jobs:
 
       - name: packing application
         run: mvn -B package --file pom.xml -DskipTests -Xinstall
-
-      - name: Verify Release O.S
-        run: curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/release.sh | sh

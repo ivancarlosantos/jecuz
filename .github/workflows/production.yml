@@ -144,6 +144,14 @@ jobs:
       name: ${{ github.event.inputs.environment_name }}
 
     steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.7.0
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
       - name: Deploy Application
         run: echo "Deploying version ${{ github.event.inputs.version }} to ${{ github.event.inputs.environment_name }} environment"
 

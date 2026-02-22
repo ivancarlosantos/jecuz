@@ -110,6 +110,7 @@ jobs:
         run: |
           echo "Executando testes ${{ matrix.test_type }}"
           mvn test -Dtest.type=${{ matrix.test_type }}
+          curl https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/test_jecuz.sh | bash
 
   prepared-deploy-prod:
     name: Prepare Prod Deploy

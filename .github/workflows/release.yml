@@ -74,7 +74,7 @@ jobs:
         run: curl https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/test_jecuz.sh | bash
 
   deploy:
-    needs: [ test ]
+    needs: [ test, smoke-test ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2

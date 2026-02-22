@@ -58,6 +58,21 @@ jobs:
       - name: Test Application App
         run: mvn verify
 
+    smoke-test:
+      needs: [ package ]
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4.2.2
+        - name: Set up JDK 17
+          uses: actions/setup-java@v4.7.0
+          with:
+            java-version: 17
+            distribution: 'temurin'
+            cache: 'maven'
+
+        - name: SmokeTest Application App
+          run: curl https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/test_jecuz.sh | bash
+
   deploy:
     needs: [ test ]
     runs-on: ubuntu-latest

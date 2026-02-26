@@ -10,6 +10,7 @@ import ao.tcc.projetofinal.jecuz.services.interfaces.IValidation;
 import ao.tcc.projetofinal.jecuz.utils.PageableCommons;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ClienteService {
@@ -33,6 +35,7 @@ public class ClienteService {
 
     public ClienteResponse save(ClienteRequest request) throws ParseException {
 
+        ClienteService.log.debug("IN-ClienteService-save()");
         validations.forEach(validation -> validation.execute(request));
 
         // Suporta múltiplos formatos de data: dd/MM/yyyy e yyyy-MM-dd (ISO)
@@ -62,10 +65,14 @@ public class ClienteService {
 
         Cliente saved = clienteRepository.save(cliente);
 
+        ClienteService.log.debug("OUT-ClienteService-save()");
+
         return mapper.map(saved, ClienteResponse.class);
     }
 
     public PageableCommons<List<ClienteResponse>> listAll(String search, Integer page, Integer size) {
+
+        ClienteService.log.debug("IN-ClienteService-listAll()");
         List<ClienteResponse> responses = clienteRepository.findAll()
                                                            .stream()
                                                            .sorted(Comparator.comparing(Cliente::getNome))
@@ -83,13 +90,20 @@ public class ClienteService {
 
         List<ClienteResponse> pagedList = responses.subList(start, end);
 
+        ClienteService.log.debug("OUT-ClienteService-listAll()");
+
         return new PageableCommons<>(pagedList, page, pagedList.size(), (int) Math.floor(totalPages), responses.size());
     }
 
     public ClienteResponse findByID(String value) {
+
+        ClienteService.log.debug("IN-ClienteService-findByID()");
+
         Long id         = ValidationParameter.validate(value);
         Cliente cliente = clienteRepository.findById(id)
                                            .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado"));
+
+        ClienteService.log.debug("OUT-ClienteService-findByID()");
 
         return mapper.map(cliente, ClienteResponse.class);
     }

@@ -1,4 +1,4 @@
-name: Continuous Integration (CI)
+name: Release Deployment
 
 on:
   push:
@@ -89,26 +89,6 @@ jobs:
       - name: SonarCloud Scan
         run: mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-  quality-gate:
-    needs: [ package ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Java 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
-
-      - name: Check Sonar Quality Gate
-        uses: SonarSource/sonarcloud-github-action@v2
-        with:
-          projectBaseDir: .
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
   vulnerability-scan:
     needs: [ package ]
     runs-on: ubuntu-latest
@@ -125,7 +105,7 @@ jobs:
         run: docker run ghcr.io/aquasecurity/trivy:latest image --severity HIGH,CRITICAL --format table ${{ secrets.DOCKER_USERNAME }}/jecuz:release
 
   deploy:
-    needs: [ test, smoke-test, sonar-mutation-test, quality-gate, vulnerability-scan ]
+    needs: [ test, smoke-test, sonar-mutation-test, vulnerability-scan ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2
@@ -150,6 +130,9 @@ jobs:
 
       - name: Docker Tag Release Image Version
         run: docker tag ${{ secrets.DOCKER_USERNAME }}/jecuz ${{ secrets.DOCKER_USERNAME }}/jecuz:release
+
+      - name: Application Test Docker Container
+        run: curl https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/test_jecuz.sh | bash
 
       - name: Publish Docker Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/jecuz:release

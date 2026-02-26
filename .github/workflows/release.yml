@@ -84,7 +84,7 @@ jobs:
         run: mvn clean verify
 
       - name: Mutation Test (PIT)
-        run: mvn org.pitest:pitest-maven:mutationCoverage
+        run: mvn org.pitest:pitest-maven:mutationCoverage -DtimeoutConstant=8000
 
       - name: SonarCloud Scan
         run: mvn sonar:sonar \

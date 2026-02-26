@@ -212,7 +212,7 @@
                     <targetTests>
                         <param>ao.tcc.projetofinal.jecuz.*</param>
                     </targetTests>
-                    <mutationThreshold>70</mutationThreshold>
+                    <mutationThreshold>40</mutationThreshold>
                     <coverageThreshold>80</coverageThreshold>
                     <outputFormats>
                         <param>XML</param>

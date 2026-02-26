@@ -10,10 +10,12 @@ import ao.tcc.projetofinal.jecuz.exceptions.RegraDeNegocioException;
 import ao.tcc.projetofinal.jecuz.repositories.ClienteRepository;
 import ao.tcc.projetofinal.jecuz.repositories.DiaristaRepository;
 import ao.tcc.projetofinal.jecuz.repositories.OrdensDeServicoRepository;
+import ao.tcc.projetofinal.jecuz.services.diarista.DiaristaService;
 import ao.tcc.projetofinal.jecuz.utils.GerarNumeroOS;
 import ao.tcc.projetofinal.jecuz.utils.PageableCommons;
 import ao.tcc.projetofinal.jecuz.utils.ValidationParameter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class OrdensDeServicoService {
@@ -35,6 +38,8 @@ public class OrdensDeServicoService {
     private final ModelMapper mapper;
 
     public PageableCommons<List<OrdemServicoResponse>> listOS(String search, Integer page, Integer size){
+
+        OrdensDeServicoService.log.debug("IN-OrdensDeServicoService-listOS()");
 
         List<OrdemServicoResponse> responses = ordensDeServicoRepository.findAll()
                                                                         .stream()
@@ -51,16 +56,23 @@ public class OrdensDeServicoService {
 
         List<OrdemServicoResponse> pagedList = responses.subList(start, end);
 
+        OrdensDeServicoService.log.debug("OUT-OrdensDeServicoService-listOS()");
         return new PageableCommons<>(pagedList, page, pagedList.size(), (int) Math.floor(totalPages), responses.size());
     }
 
     public OrdensDeServico findOS(String value){
+        OrdensDeServicoService.log.debug("IN-OrdensDeServicoService-findOS()");
         Long id = ValidationParameter.validate(value);
+
+        OrdensDeServicoService.log.debug("OUT-OrdensDeServicoService-findOS()");
         return ordensDeServicoRepository.findById(id)
                                         .orElseThrow(() -> new RegraDeNegocioException("O.S não encontrado"));
     }
 
     public OrdensDeServico gerarOrdem(String idCliente, String idDiarista, OrdemServicoRequest request, TipoLimpeza tipoLimpeza) throws ParseException {
+
+        OrdensDeServicoService.log.debug("IN-OrdensDeServicoService-gerarOrdem()");
+
         Long indexCliente  = ValidationParameter.validate(idCliente);
         Long indexDiarista = ValidationParameter.validate(idDiarista);
 
@@ -90,6 +102,7 @@ public class OrdensDeServicoService {
         diaristaRepository.save(diarista);
         ordensDeServicoRepository.save(servico);
 
+        OrdensDeServicoService.log.debug("OUT-OrdensDeServicoService-gerarOrdem()");
         return servico;
     }
 }

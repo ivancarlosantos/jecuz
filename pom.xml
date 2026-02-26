@@ -147,6 +147,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>1.22.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.5.3</version>
@@ -220,34 +232,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- PIT (mutation testing) - not bound to lifecycle by default; run with mvn org.pitest:pitest-maven:mutationCoverage -->
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>1.22.0</version>
-                <configuration>
-                    <targetClasses>
-                        <param>ao.tcc.projetofinal.jecuz.*</param>
-                    </targetClasses>
-                    <targetTests>
-                        <param>ao.tcc.projetofinal.jecuz.*</param>
-                    </targetTests>
-                    <outputFormats>
-                        <param>HTML</param>
-                    </outputFormats>
-                    <!-- don't run inside surefire forks by default -->
-                    <threads>4</threads>
-                    <timeoutFactor>1.25</timeoutFactor>
-                </configuration>
-
-                <dependencies>
-                    <dependency>
-                        <groupId>org.pitest</groupId>
-                        <artifactId>pitest-junit5-plugin</artifactId>
-                        <version>1.2.1</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
         <finalName>jecuz</finalName>

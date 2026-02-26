@@ -67,6 +67,33 @@ jobs:
       - name: SmokeTest Application App
         run: curl https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/test_jecuz.sh | bash
 
+  vulnerability-scan:
+    needs: [ package ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.7.0
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Bind Vulnerability Scan
+        run: docker run ghcr.io/aquasecurity/trivy:latest
+            --exit-code 1
+            --severity HIGH,CRITICAL
+            --no-progress
+            --format table
+            --ignore-unfixed
+            --vuln-type library
+            -v /var/run/docker.sock:/var/run/docker.sock
+            -v $HOME/.cache:/root/.cache
+            --network host
+            --quiet
+            --ignorefile .trivyignore
+            ${{ secrets.DOCKER_USERNAME }}/jecuz:release
+
   deploy:
     needs: [ test, smoke-test ]
     runs-on: ubuntu-latest

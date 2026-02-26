@@ -10,16 +10,30 @@ curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/head
 sleep 3
 
 echo 'Instalar Portainer'
+curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
 sleep 2
 docker run --name portainer --network=jecuz_app -d -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer-ce:lts
 sleep 2
 
+echo 'Instalar Uptime Kuma'
+curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
+sleep 2
+docker run --name uptime-kuma --network=jecuz_app --restart=always -d -p 3001:3001 -v uptime-kuma:/app/data -v /var/run/docker.sock:/var/run/docker.sock louislam/uptime-kuma:1
+sleep2
+
+echo 'Instalar Cadvisor'
+curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
+sleep 2
+docker run --name cadvisor --network=jecuz_app -d -p 8083:8080 -v /:/rootfs:ro -v /var/run:/var/run:ro -v /sys:/sys:ro -v /var/lib/docker/:/var/lib/docker:ro gcr.io/cadvisor/cadvisor:latest
+sleep 2
+
 echo "Instalar Postgres"
+curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
 docker run --name='jecuz_db' --network='jecuz_app' -d -p 5432:5432 -e POSTGRES_PASSWORD='12345' -e POSTGRES_USER='postgres' -e POSTGRES_DB='jecuz_db' postgres:15
 sleep 5
-curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
 
 echo "Instalar PGAdmin SGBD"
+curl -fsSL https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/progress_bar_spinner.sh | bash
 docker run --name='pgadmin' --network='jecuz_app' -d -p 15432:80 -e PGADMIN_DEFAULT_EMAIL='jecuz@jecuz.com' -e PGADMIN_DEFAULT_PASSWORD='12345' dpage/pgadmin4:latest
 sleep 5
 

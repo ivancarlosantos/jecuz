@@ -129,7 +129,7 @@ jobs:
         run: docker run ghcr.io/aquasecurity/trivy:latest image --severity HIGH,CRITICAL --format table ${{ secrets.DOCKER_USERNAME }}/jecuz:release
 
   deploy:
-    needs: [ test, smoke-test, coverage, vulnerability-scan, sonar-mutation-test, quality-gate, coverage-test ]
+    needs: [ test, smoke-test, coverage, sonar-muation-test, quality-gate, vulnerability-scan ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.2.2

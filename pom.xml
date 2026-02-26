@@ -187,7 +187,26 @@
                 </configuration>
             </plugin>
 
-            <!-- Failsafe: runs integration/E2E/smoke tests (bound to integration-test/verify) -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.15.0</version>
+                <configuration>
+                    <targetClasses>
+                        <param>ao.tcc.projetofinal.jecuz.*</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>ao.tcc.projetofinal.jecuz.*</param>
+                    </targetTests>
+                    <mutationThreshold>70</mutationThreshold>
+                    <coverageThreshold>80</coverageThreshold>
+                    <outputFormats>
+                        <param>XML</param>
+                        <param>HTML</param>
+                    </outputFormats>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -212,20 +231,15 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <configuration>
-                    <output>file</output>
-                    <append>true</append>
-                </configuration>
+                <version>0.8.11</version>
                 <executions>
                     <execution>
-                        <id>jacoco-initialize</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-site</id>
+                        <id>report</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>report</goal>

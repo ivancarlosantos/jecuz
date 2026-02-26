@@ -96,19 +96,8 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Bind Vulnerability Scan
-        run: docker run ghcr.io/aquasecurity/trivy:latest
-            --severity HIGH,CRITICAL
-            --no-progress
-            --format table
-            --ignore-unfixed
-            --vuln-type library
-            -v /var/run/docker.sock:/var/run/docker.sock
-            -v $HOME/.cache:/root/.cache
-            --network host
-            --quiet
-            --ignorefile .trivyignore
-            ${{ secrets.DOCKER_USERNAME }}/jecuz:release
+      - name: Trivy Vulnerability Scan
+        run: docker run ghcr.io/aquasecurity/trivy:latest image --severity HIGH,CRITICAL --format json ${{ secrets.DOCKER_USERNAME }}/jecuz:release
 
   deploy:
     needs: [ test, smoke-test, coverage, vulnerability-scan ]

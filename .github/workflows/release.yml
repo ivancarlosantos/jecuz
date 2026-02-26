@@ -88,8 +88,8 @@ jobs:
 
       - name: SonarCloud Scan
         run: mvn sonar:sonar \
-          -Dsonar.projectKey=jecuz-app \
-          -Dsonar.organization=icarlos \
+          -Dsonar.projectKey=jecuz-app-maven \
+          -Dsonar.organizations=icarlos \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
@@ -113,23 +113,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  coverage-test:
-    needs: [ package ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.7.0
-        with:
-          java-version: 17
-          distribution: 'temurin'
-          cache: 'maven'
-
-      - name: Bind Vulnerability Scan
-        run: | 
-          mvn test-compile org.pitest:pitest-maven:mutationCoverage
-
   vulnerability-scan:
     needs: [ package ]
     runs-on: ubuntu-latest
@@ -143,7 +126,7 @@ jobs:
           cache: 'maven'
 
       - name: Trivy Vulnerability Scan
-        run: docker run ghcr.io/aquasecurity/trivy:latest --name='trivy' image --severity HIGH,CRITICAL --format table ${{ secrets.DOCKER_USERNAME }}/jecuz:release
+        run: docker run ghcr.io/aquasecurity/trivy:latest image --severity HIGH,CRITICAL --format table ${{ secrets.DOCKER_USERNAME }}/jecuz:release
 
   deploy:
     needs: [ test, smoke-test, coverage, vulnerability-scan, sonar-mutation-test, quality-gate, coverage-test ]

@@ -67,75 +67,83 @@ jobs:
       - name: SmokeTest Application App
         run: curl https://raw.githubusercontent.com/ivancarlosantos/installer/refs/heads/master/test_jecuz.sh | bash
 
-    sonar-mutation-test:
-      needs: [ package ]
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
-        - name: Setup Java 17
-          uses: actions/setup-java@v4
-          with:
-            distribution: 'temurin'
-            java-version: '17'
-            cache: 'maven'
+  sonar-mutation-test:
+    needs: [ package ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
 
-        - name: Build + Unit Tests
-          run: mvn clean verify
+      - name: Build + Unit Tests
+        run: mvn clean verify
 
-        - name: Mutation Test (PIT)
-          run: mvn org.pitest:pitest-maven:mutationCoverage
+      - name: Mutation Test (PIT)
+        run: mvn org.pitest:pitest-maven:mutationCoverage
 
-        - name: SonarCloud Scan
-          run: mvn sonar:sonar \
-            -Dsonar.projectKey=SEU_PROJECT_KEY \
-            -Dsonar.organization=SUA_ORG \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      - name: SonarCloud Scan
+        run: mvn sonar:sonar \
+          -Dsonar.projectKey=jecuz-app \
+          -Dsonar.organization=icarlos \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-    quality-gate:
-      needs: build-test
-      runs-on: ubuntu-latest
+  quality-gate:
+    needs: [ package ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
 
-      steps:
-        - name: Check Sonar Quality Gate
-          uses: sonarsource/sonarcloud-github-action@master
-          with:
-            projectBaseDir: .
+      - name: Check Sonar Quality Gate
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: .
           env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-  coverage:
-    needs: [ package ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.2.2
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.7.0
-        with:
-          java-version: 17
-          distribution: 'temurin'
-          cache: 'maven'
+    coverage:
+      needs: [ package ]
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4.2.2
+        - name: Set up JDK 17
+          uses: actions/setup-java@v4.7.0
+          with:
+            java-version: 17
+            distribution: 'temurin'
+            cache: 'maven'
 
-      - name: Bind Vulnerability Scan
-        run: | 
-          mvn jacoco:report
-          mvn test-compile org.pitest:pitest-maven:mutationCoverage
+        - name: Bind Vulnerability Scan
+          run: |
+            mvn jacoco:report
+            mvn test-compile org.pitest:pitest-maven:mutationCoverage
 
-  vulnerability-scan:
-    needs: [ package ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.2.2
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.7.0
-        with:
-          java-version: 17
-          distribution: 'temurin'
-          cache: 'maven'
+      vulnerability-scan:
+        needs: [ package ]
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v4.2.2
+          - name: Set up JDK 17
+            uses: actions/setup-java@v4.7.0
+            with:
+              java-version: 17
+              distribution: 'temurin'
+              cache: 'maven'
 
-      - name: Trivy Vulnerability Scan
-        run: docker run ghcr.io/aquasecurity/trivy:latest --name='trivy' image --severity HIGH,CRITICAL --format table ${{ secrets.DOCKER_USERNAME }}/jecuz:release
+          - name: Trivy Vulnerability Scan
+            run: docker run ghcr.io/aquasecurity/trivy:latest --name='trivy' image --severity HIGH,CRITICAL --format table ${{ secrets.DOCKER_USERNAME }}/jecuz:release
 
   deploy:
     needs: [ test, smoke-test, coverage, vulnerability-scan, sonar-mutation-test, quality-gate ]

@@ -87,11 +87,7 @@ jobs:
         run: mvn org.pitest:pitest-maven:mutationCoverage -DtimeoutConstant=8000
 
       - name: SonarCloud Scan
-        run: mvn sonar:sonar \
-          -Dsonar.projectKey=jecuz-app-maven \
-          -Dsonar.organizations=icarlos \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn sonar:sonar -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
   quality-gate:
     needs: [ package ]
@@ -107,7 +103,7 @@ jobs:
           cache: 'maven'
 
       - name: Check Sonar Quality Gate
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@v2
         with:
           projectBaseDir: .
         env:
